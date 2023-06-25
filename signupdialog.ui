@@ -16,7 +16,7 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>50</x>
      <y>20</y>
      <width>431</width>
      <height>381</height>
@@ -137,7 +137,7 @@
    </widget>
    <widget class="QPushButton" name="pushButtonsignup2">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -239,7 +239,7 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>280</y>
+      <y>270</y>
       <width>160</width>
       <height>25</height>
      </rect>
