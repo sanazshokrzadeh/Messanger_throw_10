@@ -10,16 +10,22 @@ CONFIG += c++17
 
 SOURCES += \
     chatclient.cpp \
+    info.cpp \
+    logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
     signupdialog.cpp
 
 HEADERS += \
     chatclient.h \
+    info.h \
+    logindialog.h \
     mainwindow.h \
+    overload.h \
     signupdialog.h
 
 FORMS += \
+    logindialog.ui \
     mainwindow.ui \
     signupdialog.ui
 
