@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include"signupdialog.h"
+#include"logindialog.h"
+#include"info.h"
+#include<QVector>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,8 +20,26 @@ public:
 
 private slots:
     void on_pushButton_signup_on_mainwindow_clicked();
+     void slot_signup(info infor);
+    void slot_login(info per);
+   //  void on_pushButton_login_on_mainwindow_clicked();
 
-private:
+     void on_pushButton_Login_on_mainwindow_clicked();
+
+ private:
     Ui::MainWindow *ui;
+    QVector<MainWindow>vec;
+    loginDialog *log;
+    SignUpDialog *signUp;
 };
 #endif // MAINWINDOW_H
+
+
+
+
+
+
+
+
+
+
