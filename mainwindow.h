@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include"chatclient.h"
 #include"signupdialog.h"
 #include"logindialog.h"
 #include"info.h"
