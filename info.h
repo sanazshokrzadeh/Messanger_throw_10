@@ -7,8 +7,8 @@ class info
 {
 public:
     info();
-QString name, username,password,lastname,email,gender,age;
-    info(QString nam,QString user,QString pass,QString last,QString e, QString ge,QString a);
+QString name, username,password,phonenum,email;
+    info(QString nam,QString user,QString pass,QString phone,QString e);
     bool operator ==(const info &other);
 
 
