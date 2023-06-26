@@ -2,7 +2,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include<chatclient.h>
 #include<QMessageBox>
 #include<overload.h>
 QVector<info>vecinfo;
@@ -69,7 +69,7 @@ void save()
 {
 
 
-    QFile file("person.txt");
+    QFile file("person1.txt");
 //
     file.open(QIODevice :: WriteOnly);
 
@@ -79,7 +79,7 @@ void save()
     for(auto& i:vecinfo){
         out << i;
     }
-    out<<"\nDOnefile!";
+   // out<<"\nDOnefile!";
     file.flush();
     file.close();
 
@@ -89,7 +89,7 @@ void save()
 void load()
 {
 
-    QFile file("person.txt");
+    QFile file("person1.txt");
 
     file.open(QIODevice :: ReadOnly);
 
@@ -100,8 +100,8 @@ void load()
 
 
     info i;
-    in>>i;
-    while(i.name!="\nDOnefile!"){
+
+    while(!in.atEnd()){
         in>> i;
         if(search(i)){
             vecinfo.push_back(i);
@@ -110,8 +110,9 @@ void load()
 
 
     file.close();
-    //qDebug() << p1.name<<":"<< p1.age;
-    //qDebug() << p2.name<<":"<< p2.age;
+   info p1=vecinfo[0];
+    qDebug() << p1.name<<":"<< p1.phonenum;
+ //qDebug() << p2.name<<":"<< p2.age;
 
 
 
@@ -124,7 +125,7 @@ MainWindow::~MainWindow()
 }
 void MainWindow::on_pushButton_Login_on_mainwindow_clicked()
 { //read(p);
-       load();
+    // load();
         log = new loginDialog();
         connect(log,SIGNAL(sig_login(info)),this,SLOT(slot_login(info)));
         log->show();
@@ -139,12 +140,22 @@ void MainWindow::on_pushButton_Login_on_mainwindow_clicked()
     SignUpDialog signUpDialog;
     signUpDialog.exec();
 }*/
+bool idsearch(QString id){
+        for(info i:vecinfo){
+        if(i.username==id){return true;
 
-void MainWindow::slot_signup(info infor){
+        }} return false;
+}
+void MainWindow::slot_signup(info infor){ load();
     qint32 num=searchuser(infor);
+        if(idsearch(infor.username)){
+        QMessageBox::warning(nullptr, "Error", "This username has been taken\n Try more");
+        return;
+        }
     if(num==-1){
         vecinfo.push_back(infor);
-        save();
+       // chatClient->signUp(infor.username,infor.password,infor.name,infor.phonenum);
+       // save();
     }
     else{
         if(!(vecinfo[num]==infor)){
