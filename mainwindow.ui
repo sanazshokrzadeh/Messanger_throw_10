@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>425</width>
-    <height>410</height>
+    <width>349</width>
+    <height>323</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>80</y>
+      <x>70</x>
+      <y>60</y>
       <width>191</width>
       <height>161</height>
      </rect>
@@ -26,6 +26,20 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QPushButton" name="pushButton_signup_on_mainwindow">
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	background-color:rgb(151, 159, 255);
+	color: rgb(252, 252 252);
+	font-weight: bold;
+	border-style: solid;
+	border-width: 2px;
+	border-radius:4px;
+	padding: 5px;
+	font: 700 12pt &quot;Exo 4&quot;;
+}
+</string>
+       </property>
        <property name="text">
         <string>Sign Up</string>
        </property>
@@ -33,6 +47,19 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_Login_on_mainwindow">
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	background-color:rgb(122, 122, 122);
+	color: rgb(252, 252 252);
+	font-weight: bold;
+	border-style: solid;
+	border-width: 2px;
+	border-radius:4px;
+	padding: 5px;
+	font: 700 12pt &quot;Exo 4&quot;;
+}</string>
+       </property>
        <property name="text">
         <string>Log In</string>
        </property>
@@ -46,8 +73,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>425</width>
-     <height>26</height>
+     <width>349</width>
+     <height>24</height>
     </rect>
    </property>
   </widget>
