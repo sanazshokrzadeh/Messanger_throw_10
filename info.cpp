@@ -7,13 +7,13 @@ info::info()
 
 
 }
-info::info(QString nam,QString user,QString pass,QString last,QString e, QString ge,QString a){
+info::info(QString nam,QString user,QString pass,QString phone,QString e){
     name=nam;username=user;
-    this->password=pass;this->lastname=last; this->email=e;this->gender=ge;this->age=a;
+    this->password=pass;this->phonenum=phone; this->email=e;
 
 }
 bool info::operator ==(const info &other){
-    if(this->name==other.name&&this->username==other.username&&this->password==other.password&&this->age==other.age&&this->lastname==other.lastname&&this->gender==other.gender&&this->email==other.email){
+    if(this->name==other.name&&this->username==other.username&&this->password==other.password&&this->phonenum==other.phonenum&&this->email==other.email){
         return 0;
     }
     return 1;
