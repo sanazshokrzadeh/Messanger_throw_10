@@ -9,19 +9,30 @@
 #include<QPushButton>
 #include<QHBoxLayout>
 #include<QSlider>
+#include<QTimer>
+
 #include"info.h"
+
+
+
+
 SignUpDialog::SignUpDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SignUpDialog)
 {
     ui->setupUi(this);
+    chatClient = new ChatClient(this);
+    connect(chatClient, &ChatClient::signUpSuccess, this, &SignUpDialog::handleSignUpSuccess);
+    connect(chatClient, &ChatClient::signUpError, this, &SignUpDialog::handleSignUpError);
+
+
 }
 
 SignUpDialog::~SignUpDialog()
 {
     delete ui;
 }
-//
+
 
 
 //void SignUpDialog::on_pushButton_signup_on_signup_clicked()
@@ -67,14 +78,14 @@ return score;
 
 void SignUpDialog::on_pushButtonsignup2_clicked()
 {info person;
- person.name=ui->lineEditname->text();
+person.name=ui->lineEditname->text();
 
-    person.lastname=ui->lineEditlast->text();
+person.phonenum=ui->lineEditphone->text();
     person.email=ui->lineEditemail->text();
     person.username=ui->lineEditusername->text();
 
     QString password=ui->lineEditpassword->text();
-
+ //person.password =ui->lineEditpassword->text();
    qint32 score = evaluatePasswordStrength(password);
     // Determine the password strength based on the score
    QString strength;
@@ -92,32 +103,56 @@ ui->horizontalSlider->setTickPosition(QSlider::TicksBelow);
    ui->horizontalSlider->setPageStep(1);
 ui->horizontalSlider->show();
 ui->horizontalSlider->setValue(score);
+ui->lineEditpassword->setStatusTip("Your password strength is "+strength);
+    person.password =ui->lineEditpassword->text();
 
-    // person.password =ui->lineEditpassword->text();
-ui->lineEditpassword->setText("your password strength is "+strength);
+QString pass=ui->c_password_lineEdit->text();
+if(pass!=person.password){
+        ui->c_password_lineEdit->setStatusTip("Please Enter your password correctlly");
+}
+//setText("your password strength is "+strength);
 
-    // Display the result
     if (strength=="Weak"){
-         ui->pushButtonsignup2->setEnabled(false);
+       //  ui->pushButtonsignup2->setEnabled(false);
        //goto pass;
-    QMessageBox::information(nullptr, "Hey your password strength is", strength);//strength
+         QMessageBox(QMessageBox::Information, "Your Password Strength is", strength);
+
+        // QTimer::singleShot(3000, &messageBox, &QMessageBox::close);
+         //strength
         //on_bar_sliderMoved();
     }
     // pushButtonsignup2setStyleSheet();
 
 
-    person.age=ui->lineEditage->text();
-    person.gender=ui->comboBoxgender->currentText();
-    // double age=ui->lineEditage->;
-    //  QMessageBox::information(this,"gender",ui->comboBoxgender->currentText());
-    if((person.name!='\0'&&person.username!='\0'&&person.password!='\0')){
-    ui->pushButtonsignup2->setEnabled(true);
-    // goto k;
+
+
+    if(person.name.isEmpty()||person.username.isEmpty()||person.password.isEmpty()||person.phonenum.isEmpty()){
+         QMessageBox::warning(this,"Warning", "Please fill out the information");
+
     }
-    emit sig_signup(person);
-    hide();
+    else{      ui->pushButtonsignup2->setEnabled(true);
+         hide();
+          chatClient->signUp(person.username,password,person.name,person.phonenum);
+         emit sig_signup(person);
+    }
 
 }
+
+
+void SignUpDialog::handleSignUpSuccess()
+{
+    // Handle sign-up success
+    QMessageBox::information(this, "Sign Up", "Sign Up Successful");
+    // Perform any additional actions or UI updates
+}
+
+void SignUpDialog::handleSignUpError(const QString &errorMessage)
+{
+    // Handle sign-up error
+    QMessageBox::critical(this, "Sign Up Error", errorMessage);
+    // Perform any additional error handling or UI updates
+}
+
 
 
 
