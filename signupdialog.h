@@ -4,6 +4,7 @@
 #include <QDialog>
 #include<QVector>
 #include"info.h"
+#include"chatclient.h"
 namespace Ui {
 class SignUpDialog;
 }
@@ -18,15 +19,24 @@ public:
 qint32 evaluatePasswordStrength(const QString& password);
 private slots:
     void on_pushButtonsignup2_clicked();
+    void handleSignUpSuccess();
+    void handleSignUpError(const QString &errorMessage);
 
+  //  void on_c_password_lineEdit_textChanged( QString password);
 
 private:
     Ui::SignUpDialog *ui;
+    ChatClient *chatClient;
 signals:
     void sig_signup(info infor);
 };
 
 #endif // SIGNUPDIALOG_H
+////////////////
+
+
+
+
 
 
 
