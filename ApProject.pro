@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     chatclient.cpp \
+    homepage.cpp \
     info.cpp \
     logindialog.cpp \
     main.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     chatclient.h \
+    homepage.h \
     info.h \
     logindialog.h \
     mainwindow.h \
@@ -25,6 +27,7 @@ HEADERS += \
     signupdialog.h
 
 FORMS += \
+    homepage.ui \
     logindialog.ui \
     mainwindow.ui \
     signupdialog.ui
@@ -35,3 +38,9 @@ QT += network
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+RESOURCES += \
+    confirm.qrc \
+    image.qrc
