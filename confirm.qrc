@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/confirm">
-        <file>confirm/closed-eye-24.png</file>
-        <file>confirm/eye-50.png</file>
-    </qresource>
-</RCC>

@@ -11,14 +11,14 @@ QDataStream  &operator >> (QDataStream  &in  ,  info  &p);
 
 
 QDataStream  &operator << (QDataStream  &out , const info  &p)
-{  out<<p.name<<p.last<<p.username<<p.email<<p.password;
+{  out<<p.name<<p.lastname<<p.username<<p.age<<p.email<<p.gender<<p.password;
 
     return out;
 }
 
 QDataStream  &operator >> (QDataStream  &in  , info  &p)
 {
-    in>>p.name>>p.last>>p.username>>p.email>>p.password;
+    in>>p.name>>p.lastname>>p.username>>p.age>>p.email>>p.gender>>p.password;
     return in;
 }
 
