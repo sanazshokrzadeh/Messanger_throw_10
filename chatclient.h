@@ -18,6 +18,7 @@ public:
     void signUp(const QString &username, const QString &password, const QString &firstName, const QString &lastName);
     void logIn(const QString &username, const QString &password);
     void logout(const QString &username, const QString &password);
+    void getuserlist(const QString &token);
     void sendmessegeuser (const QString &token, const QString &dst,const QString &body);
 
 
@@ -36,6 +37,7 @@ signals:
 
 private slots:
     void handleNetworkReply(QNetworkReply *reply);
+
 
 private:
     QNetworkAccessManager *networkManager;

@@ -63,6 +63,15 @@ void ChatClient::sendmessegeuser (const QString &token, const QString &dst,const
     reply->setProperty("requestType", "sendmessageuser");
 }
 
+void ChatClient::getuserlist (const QString &token)
+{
+
+    QString requestUrl = "http://api.barafardayebehtar.ml:8080/getuserlist?";
+    requestUrl += "token=" + token;
+
+    QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(requestUrl)));
+    reply->setProperty("requestType", "getuserlist");
+}
 
 
 void ChatClient::handleNetworkReply(QNetworkReply *reply)
