@@ -31,6 +31,8 @@ signals:
     void logoutSuccess();
     void logoutError(const QString &errorMessage);
     void AlreadyLogIn();
+    void sendmessageuserSuccess();
+    void sendmessageuserError(const QString &errorMessage);
 
 private slots:
     void handleNetworkReply(QNetworkReply *reply);

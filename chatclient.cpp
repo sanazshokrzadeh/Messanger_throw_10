@@ -119,6 +119,15 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             emit logoutError("Error: " + message);
         }
     }
+    else if (requestType == "sendmessageuser") {
+        if (code == "200") {
+            emit sendmessageuserSuccess();
+            // sendmessageuser successful, do something
+        }
+        else {
+            emit sendmessageuserError("Error: " + message);
+        }
+    }
 
     // Clean up the network reply
     reply->deleteLater();
