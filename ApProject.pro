@@ -16,7 +16,6 @@ SOURCES += \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
-    newchatusername.cpp \
     signupdialog.cpp \
     tokendeliver.cpp \
     tokenuser.cpp
@@ -28,7 +27,6 @@ HEADERS += \
     info.h \
     logindialog.h \
     mainwindow.h \
-    newchatusername.h \
     overload.h \
     signupdialog.h \
     tokendeliver.h \
@@ -39,7 +37,6 @@ FORMS += \
     homepage.ui \
     logindialog.ui \
     mainwindow.ui \
-    newchatusername.ui \
     signupdialog.ui
 
 QT += network

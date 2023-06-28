@@ -6,13 +6,19 @@ homepage::homepage(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::homepage)
 {    ui->setupUi(this);
+<<<<<<< HEAD
      chatClient = new ChatClient(this);
      adduser =new newchatusername();
      logout = new confirmlogout();
      connect(adduser, &newchatusername::sendchatusernametohomepage, this, &homepage::handlechatusernamesignal);
      connect(logout, &confirmlogout::hidehomepageaftersuccessfullogout, this, &homepage::handlehidehomepageaftersuccessfullogout);
 
+=======
+    //ui->label
+>>>>>>> 6ddfd7ce80b56fb2b85420444f1fa5b9c4ca71dd
 
+//    login=new loginDialog(this);
+    //    connect(login, &loginDialog::sig_logintohomepage, this, &homepage::handletoken);
 }
 
 void homepage::setPerson(tokenuser person)
@@ -60,8 +66,11 @@ void homepage::on_settingsButton_clicked()
 
 
 
-void homepage::on_pushButton_add_on_homepage_clicked()
+
+
+void homepage::on_pushButtonadd_2_clicked()
 {
+<<<<<<< HEAD
     adduser->show();
 }
 
@@ -72,5 +81,8 @@ void homepage::handlehidehomepageaftersuccessfullogout(){
 void homepage::handlechatusernamesignal(QString chatusername){
     QString token = receivedUser.getToken();
     chatClient->sendmessegeuser(token,chatusername,"hi");
+=======
+>>>>>>> 6ddfd7ce80b56fb2b85420444f1fa5b9c4ca71dd
 
 }
+
