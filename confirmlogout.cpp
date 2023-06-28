@@ -1,7 +1,7 @@
 #include "confirmlogout.h"
 #include "ui_confirmlogout.h"
 #include <QMessageBox>
-
+#include<QFile>
 confirmlogout::confirmlogout(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::confirmlogout)
@@ -31,9 +31,19 @@ void confirmlogout::handlelogoutSuccess()
 {
     // Handle logout success
     QMessageBox::information(this, "logout", "logout Successful");
+    QFile file("usertoken.txt");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file for reading:" << file.errorString();
+        return ;
+    }
+  file.close();
+
     this->hide();
     emit hidehomepageaftersuccessfullogout();
-    //note:open mainwindow
+
+
+
+
 }
 
 void confirmlogout::handlelogoutError(const QString &errorMessage)
@@ -41,7 +51,7 @@ void confirmlogout::handlelogoutError(const QString &errorMessage)
     // Handle logout error
     QMessageBox::critical(this, "logout Error", errorMessage);
     this->hide();
-    //note:open homepage again
+
 }
 
 
