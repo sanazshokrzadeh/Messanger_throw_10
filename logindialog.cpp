@@ -20,7 +20,7 @@ loginDialog::loginDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     chatClient = new ChatClient(this);
-    connect(chatClient, &ChatClient::AlreadyLogIn, this, &loginDialog::handleAlreadyLogIn);
+ connect(chatClient, &ChatClient::AlreadyLogIn, this, &loginDialog::handleAlreadyLogIn);
     connect(chatClient, &ChatClient::logInSuccess, this, &loginDialog::handleLogInSuccess);
     connect(chatClient, &ChatClient::logInError, this, &loginDialog::handleLogInError);
     ui->passwordeye->setIcon(QIcon(":/img/img/icons8-closed-eye-24.png"));
@@ -75,10 +75,12 @@ QString readFromFile(QString fileName,QString username)
 
     QTextStream in(&file);
     QString line,result;
+    //file.readAll();
     while (!in.atEnd()) {
         line = in.readLine();
         QStringList tokens = line.split(",");
-        if (!tokens.at(1).isEmpty()&& tokens.at(0) == username) {
+        qDebug()<<line;
+        if (!tokens.at(1).isEmpty() && tokens.at(0) == username) {
             file.close();
             result=tokens.at(1);
              // Return the token
@@ -96,7 +98,7 @@ void loginDialog::handleAlreadyLogIn()
     QMessageBox::information(this, "Log In", "You are already logged in!");
     QString username=ui->lineEditusername2->text();
 
-    QString tok=readFromFile("usertoken.txt",username);
+    QString tok=readFromFile("usertoken.txt",username);   qDebug()<<"doneeeee!"<<tok;
          tokenuser person(username,tok);
                logintohomepage(person);
 
