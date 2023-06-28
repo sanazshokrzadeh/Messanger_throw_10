@@ -21,6 +21,7 @@ private slots:
     void handlelogoutSuccess();
     void handlelogoutError(const QString &errorMessage);
 
+
 private:
     Ui::confirmlogout *ui;
     ChatClient *chatClient;

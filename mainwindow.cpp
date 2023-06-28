@@ -39,30 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::slot_login(info per){
     //qDebug()<<vecinfo[0].username;
-    QMessageBox message;
-    message.setWindowTitle("Answer");
-//    for(auto i:vecinfo){
-//    qDebug()<<i.username;
-//        if(per.username==i.username){
-//            qDebug()<<i.password;
-//            if(per.password==i.password){
-//                message.setText("WLCOME!");
-//                message.setIcon(QMessageBox::Information);
-//                message.exec();
-//                return;
-//            }
-//            if(per.password!=i.password){
-//                message.setText("You are not allowed!\nPassword is wrong!");
-//                message.setIcon(QMessageBox::Information);
-//                message.exec();
-//                return;
-//            }
-//        }
 
-//    }
-//    message.setText("Not found!");
-//    message.setIcon(QMessageBox::Information);
-//    message.exec();
+
+
 }
 
 void save()

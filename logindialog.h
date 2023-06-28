@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include<QVector>
+#include"homepage.h"
 #include"info.h"
 #include"chatclient.h"
 namespace Ui {
@@ -17,17 +18,27 @@ public:
     explicit loginDialog(QWidget *parent = nullptr);
     ~loginDialog();
 
+
+
+public slots:
+    void logintohomepage(tokenuser person);
+
 private slots:
     void on_pushButtonlogin2_clicked();
-    void handleLogInSuccess(const QString &token);
+    void handleLogInSuccess(QString token);
     void handleLogInError(const QString &errorMessage);
+      void handleAlreadyLogIn();
     void on_passwordeye_clicked();
+      void slot_Homepage(tokenuser person);//QString readTokenFromFile(const QString &username);
+     // void writeTokenToFile(const QString &username, const QString &token);
 
 private:
     Ui::loginDialog *ui;
     ChatClient *chatClient;
+//   homepage *HmPage;
 signals:
     void sig_login(info inf);
+    void sig_logintohomepage(tokenuser person);
 };
 
 #endif // LOGINDIALOG_H

@@ -1,11 +1,27 @@
-#include "homepage.h"
+#include"homepage.h"
 #include "ui_homepage.h"
 #include<QMenu>
+tokenuser receivedUser;
 homepage::homepage(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::homepage)
+{    ui->setupUi(this);
+     chatClient = new ChatClient(this);
+     adduser =new newchatusername();
+     connect(adduser, &newchatusername::sendchatusernametohomepage, this, &homepage::handlechatusernamesignal);
+
+}
+
+void homepage::setPerson(tokenuser person)
 {
-    ui->setupUi(this);
+    // Use the person object here or store it as a member variable
+    // You can access its attributes using person.username and person.token
+    // Example:
+    QString username = person.getUsername();
+    QString token = person.getToken();
+    receivedUser=tokenuser(username,token);
+    ui->label->setText(username);
+    ui->label_2->setText(token);
 }
 
 homepage::~homepage()
@@ -40,3 +56,15 @@ void homepage::on_settingsButton_clicked()
     menu->popup(QPoint(ui->settingsButton->pos().x(), ui->settingsButton->pos().y() + 70));
 }
 
+
+
+void homepage::on_pushButton_add_on_homepage_clicked()
+{
+    adduser->show();
+}
+
+void homepage::handlechatusernamesignal(QString chatusername){
+    QString token = receivedUser.getToken();
+    chatClient->sendmessegeuser(token,chatusername,"hi");
+
+}

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>284</width>
+    <width>297</width>
     <height>218</height>
    </rect>
   </property>
@@ -16,7 +16,7 @@
   <widget class="QPushButton" name="pushButtonlogin2">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>160</y>
      <width>269</width>
      <height>33</height>
@@ -57,7 +57,7 @@
   <widget class="QGroupBox" name="password_groupBox">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>90</y>
      <width>269</width>
      <height>61</height>
@@ -183,7 +183,7 @@ padding-left:3px;</string>
   <widget class="QGroupBox" name="username_groupBox">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>10</y>
      <width>269</width>
      <height>61</height>

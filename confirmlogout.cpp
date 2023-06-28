@@ -39,3 +39,5 @@ void confirmlogout::handlelogoutError(const QString &errorMessage)
     //note:open homepage again
 }
 
+
+

@@ -51,17 +51,17 @@ void ChatClient::logout(const QString &username, const QString &password)
 //    reply->setProperty("requestType", "logIn");
 //}
 
-//void ChatClient::sendmessegeuser (const QString &token, const QString &dst,const QString &body)
-//{
+void ChatClient::sendmessegeuser (const QString &token, const QString &dst,const QString &body)
+{
 
-//    QString requestUrl = "http://api.barafardayebehtar.ml:8080/sendmessagegroup?";
-//    requestUrl += "username=" + token;
-//    requestUrl += "&dst=" + dst;
-//    requestUrl += "&body" + body;
+   QString requestUrl = "http://api.barafardayebehtar.ml:8080/sendmessageuser?";
+    requestUrl += "token=" + token;
+    requestUrl += "&dst=" + dst;
+    requestUrl += "&body" + body;
 
-//    QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(requestUrl)));
-//    reply->setProperty("requestType", "sendmessageuser");
-//}
+    QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(requestUrl)));
+    reply->setProperty("requestType", "sendmessageuser");
+}
 
 
 
@@ -69,7 +69,6 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
 {
     QString requestType = reply->property("requestType").toString();
     QString replyMessage = reply->readAll();
-
     QJsonDocument jsonDoc = QJsonDocument::fromJson(replyMessage.toUtf8());
     QJsonObject jsonObj = jsonDoc.object();
 
@@ -93,7 +92,10 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
         }
     }
     else if (requestType == "logIn") {
-        if (code == "200") {
+        if(message=="You are already logged in!"){
+            emit AlreadyLogIn();
+        }
+        else if (code == "200") {
             QString token = jsonObj["token"].toString();
             qDebug()<<token;
           emit logInSuccess(token);
@@ -116,6 +118,16 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             emit logoutError("Error: " + message);
         }
     }
+    else if (requestType == "sendmessageuser") {
+        if (code == "200") {
+            emit sendmessageuserSuccess();
+            // sendmessageuser successful, do something
+        }
+        else {
+            emit sendmessageuserError("Error: " + message);
+        }
+    }
+
 
     // Clean up the network reply
     reply->deleteLater();
