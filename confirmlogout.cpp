@@ -8,6 +8,8 @@ confirmlogout::confirmlogout(QWidget *parent) :
 {
     chatClient = new ChatClient(this);
     ui->setupUi(this);
+    connect(chatClient, &ChatClient::logoutSuccess, this, &confirmlogout::handlelogoutSuccess);
+    connect(chatClient, &ChatClient::logoutError, this, &confirmlogout::handlelogoutError);
 }
 
 confirmlogout::~confirmlogout()
@@ -29,6 +31,8 @@ void confirmlogout::handlelogoutSuccess()
 {
     // Handle logout success
     QMessageBox::information(this, "logout", "logout Successful");
+    this->hide();
+    emit hidehomepageaftersuccessfullogout();
     //note:open mainwindow
 }
 
@@ -36,6 +40,7 @@ void confirmlogout::handlelogoutError(const QString &errorMessage)
 {
     // Handle logout error
     QMessageBox::critical(this, "logout Error", errorMessage);
+    this->hide();
     //note:open homepage again
 }
 

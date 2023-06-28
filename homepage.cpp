@@ -8,7 +8,10 @@ homepage::homepage(QWidget *parent) :
 {    ui->setupUi(this);
      chatClient = new ChatClient(this);
      adduser =new newchatusername();
+     logout = new confirmlogout();
      connect(adduser, &newchatusername::sendchatusernametohomepage, this, &homepage::handlechatusernamesignal);
+     connect(logout, &confirmlogout::hidehomepageaftersuccessfullogout, this, &homepage::handlehidehomepageaftersuccessfullogout);
+
 
 }
 
@@ -31,8 +34,7 @@ homepage::~homepage()
 
 void homepage::on_moreButton_clicked()
 {
-    this->hide();
-    logout =new confirmlogout();
+
     logout->show();
 }
 
@@ -61,6 +63,10 @@ void homepage::on_settingsButton_clicked()
 void homepage::on_pushButton_add_on_homepage_clicked()
 {
     adduser->show();
+}
+
+void homepage::handlehidehomepageaftersuccessfullogout(){
+    this->hide();
 }
 
 void homepage::handlechatusernamesignal(QString chatusername){

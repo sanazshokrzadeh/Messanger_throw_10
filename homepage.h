@@ -34,6 +34,8 @@ private slots:
 
     void handlechatusernamesignal(QString chatusername);
 
+    void handlehidehomepageaftersuccessfullogout();
+
 private:
     Ui::homepage *ui;
     confirmlogout *logout;
