@@ -16,18 +16,54 @@ void ChatClient::signUp(const QString &username, const QString &password, const 
     requestUrl += "&lastname=" + lastName;
 
     QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(requestUrl)));
+
     reply->setProperty("requestType", "signUp");
 }
 
 void ChatClient::logIn(const QString &username, const QString &password)
 {
-    QString requestUrl = "http://api.barafardayebehtar.ml:8080/signin?";
+    QString requestUrl = "http://api.barafardayebehtar.ml:8080/login?";
     requestUrl += "username=" + username;
     requestUrl += "&password=" + password;
 
     QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(requestUrl)));
     reply->setProperty("requestType", "logIn");
 }
+
+void ChatClient::logout(const QString &username, const QString &password)
+{
+    QString requestUrl = "http://api.barafardayebehtar.ml:8080/logout?";
+    requestUrl += "username=" + username;
+    requestUrl += "&password=" + password;
+
+    QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(requestUrl)));
+    reply->setProperty("requestType", "logout");
+}
+
+//void ChatClient::sendmessegegroup (const QString &token, const QString &sdt,const QString &body)
+//{
+
+//    QString requestUrl = "http://api.barafardayebehtar.ml:8080/sendmessagegroup?";
+//    requestUrl += "username=" + username;
+//    requestUrl += "&password=" + password;
+
+//    QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(requestUrl)));
+//    reply->setProperty("requestType", "logIn");
+//}
+
+//void ChatClient::sendmessegeuser (const QString &token, const QString &dst,const QString &body)
+//{
+
+//    QString requestUrl = "http://api.barafardayebehtar.ml:8080/sendmessagegroup?";
+//    requestUrl += "username=" + token;
+//    requestUrl += "&dst=" + dst;
+//    requestUrl += "&body" + body;
+
+//    QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(requestUrl)));
+//    reply->setProperty("requestType", "sendmessageuser");
+//}
+
+
 
 void ChatClient::handleNetworkReply(QNetworkReply *reply)
 {
@@ -46,6 +82,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
 
     if (requestType == "signUp") {
         if (code == "200") {
+            emit signUpSuccess();
             // SignUp successful, do something
         }
         else if (code == "204") {
@@ -58,6 +95,9 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
     else if (requestType == "logIn") {
         if (code == "200") {
             QString token = jsonObj["token"].toString();
+            qDebug()<<token;
+          emit logInSuccess(token);
+
             // LogIn successful, do something with the token
         }
         else if (code == "401") {
@@ -67,10 +107,18 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             emit logInError("Error: " + message);
         }
     }
+    else if (requestType == "logout") {
+        if (code == "200") {
+            emit logoutSuccess();
+            // logout successful, do something
+        }
+        else {
+            emit logoutError("Error: " + message);
+        }
+    }
 
     // Clean up the network reply
     reply->deleteLater();
 }
-
 
 

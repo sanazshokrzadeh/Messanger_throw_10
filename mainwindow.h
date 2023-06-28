@@ -39,8 +39,3 @@ private slots:
 
 
 
-
-
-
-
-
