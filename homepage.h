@@ -4,6 +4,8 @@
 #include <QDialog>
 #include"confirmlogout.h"
 #include "tokenuser.h"
+#include"chatclient.h"
+#include"newchatusername.h"
 
 namespace Ui {
 class homepage;
@@ -29,9 +31,13 @@ private slots:
 
     void handlehidehomepageaftersuccessfullogout();
 
+    void handlechatusernamesignal(QString chatusername);
+
 private:
     Ui::homepage *ui;
     confirmlogout *logout;
+    ChatClient *chatClient;
+    newchatusername *adduser;
 
 signals:
     void sig_HmPage(tokenuser person);
