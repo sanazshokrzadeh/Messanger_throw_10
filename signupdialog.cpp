@@ -20,7 +20,6 @@ SignUpDialog::SignUpDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SignUpDialog)
 {
-    setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint);
 
 
     //

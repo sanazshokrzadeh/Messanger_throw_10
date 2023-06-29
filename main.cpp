@@ -6,7 +6,7 @@
 #include<homepage.h>
 bool readFromFile()
 {
-    QFile file("usertoken2.txt");
+    QFile file("usertoken.txt");
 
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {

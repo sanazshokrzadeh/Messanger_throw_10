@@ -31,7 +31,7 @@ void confirmlogout::handlelogoutSuccess()
 {
     // Handle logout success
     QMessageBox::information(this, "logout", "logout Successful");
-    QFile file("usertoken2.txt");
+    QFile file("usertoken.txt");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qDebug() << "Failed to open file for reading:" << file.errorString();
         return ;

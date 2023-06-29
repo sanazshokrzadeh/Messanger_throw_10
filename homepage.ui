@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1090</width>
+    <width>970</width>
     <height>679</height>
    </rect>
   </property>
@@ -77,185 +77,140 @@ border-color: rgb(134, 134, 134);</string>
      <number>5</number>
     </property>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
+     <widget class="QScrollArea" name="room_panel">
+      <property name="widgetResizable">
+       <bool>true</bool>
       </property>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>User</string>
-       </attribute>
-       <widget class="QWidget" name="widget_6" native="true">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>231</width>
-          <height>31</height>
-         </rect>
+      <widget class="QWidget" name="roomPanelContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>238</width>
+         <height>649</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>5</number>
         </property>
-        <widget class="QPushButton" name="pushButtonadd_2">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>231</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Add</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QPushButton" name="pushButton_getuserlist_on_homepage">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>60</y>
-          <width>91</width>
-          <height>29</height>
-         </rect>
+        <property name="leftMargin">
+         <number>0</number>
         </property>
-        <property name="text">
-         <string>getuserlist</string>
+        <property name="topMargin">
+         <number>0</number>
         </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_getuserchats_on_homepage">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>110</y>
-          <width>93</width>
-          <height>29</height>
-         </rect>
+        <property name="rightMargin">
+         <number>0</number>
         </property>
-        <property name="text">
-         <string>getuserchats</string>
+        <property name="bottomMargin">
+         <number>0</number>
         </property>
-       </widget>
-       <widget class="QScrollArea" name="room_paneluser">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>160</y>
-          <width>240</width>
-          <height>451</height>
-         </rect>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="roomPanelContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>238</width>
-           <height>449</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <property name="spacing">
-           <number>5</number>
-          </property>
-          <property name="leftMargin">
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
            <number>0</number>
           </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-         </layout>
-        </widget>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="tab_3">
-       <attribute name="title">
-        <string>Group</string>
-       </attribute>
-       <widget class="QWidget" name="widget" native="true">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>231</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <widget class="QPushButton" name="pushButton_creategroup">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>111</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>creategroup</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButtonadd_joingroup">
-         <property name="geometry">
-          <rect>
-           <x>110</x>
-           <y>0</y>
-           <width>121</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>joingroup</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QPushButton" name="pushButton_getgrouplist">
-        <property name="geometry">
-         <rect>
-          <x>60</x>
-          <y>50</y>
-          <width>93</width>
-          <height>29</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>getgrouplist</string>
-        </property>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Channel</string>
-       </attribute>
-       <widget class="QWidget" name="widget_5" native="true">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>231</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <widget class="QPushButton" name="pushButtonaddchannel">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>231</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Add</string>
-         </property>
-        </widget>
-       </widget>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>User</string>
+           </attribute>
+           <widget class="QWidget" name="widget_6" native="true">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>231</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <widget class="QPushButton" name="pushButtonadd_2">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>231</width>
+               <height>32</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QPushButton" name="pushButton_getuserlist_on_homepage">
+            <property name="geometry">
+             <rect>
+              <x>70</x>
+              <y>60</y>
+              <width>93</width>
+              <height>29</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>getuserlist</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="tab_3">
+           <attribute name="title">
+            <string>Group</string>
+           </attribute>
+           <widget class="QWidget" name="widget" native="true">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>231</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <widget class="QPushButton" name="pushButtonadd">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>231</width>
+               <height>32</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="tab_2">
+           <attribute name="title">
+            <string>Channel</string>
+           </attribute>
+           <widget class="QWidget" name="widget_5" native="true">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>231</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <widget class="QPushButton" name="pushButtonaddchannel">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>231</width>
+               <height>32</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

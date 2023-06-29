@@ -98,7 +98,7 @@ void loginDialog::handleAlreadyLogIn()
     QMessageBox::information(this, "Log In", "You are already logged in!");
     QString username=ui->lineEditusername2->text();
 
-    QString tok=readFromFile("usertoken2.txt",username);   qDebug()<<"doneeeee!"<<tok;
+    QString tok=readFromFile("usertoken.txt",username);   qDebug()<<"doneeeee!"<<tok;
          tokenuser person(username,tok);
                logintohomepage(person);
 
@@ -126,7 +126,7 @@ void loginDialog::handleLogInSuccess(QString token)
     // Handle log-in success
     QMessageBox::information(this, "Log In", "Log In Successful");
              QString username=ui->lineEditusername2->text();
-    writeToFile("usertoken2.txt",username,token);
+    writeToFile("usertoken.txt",username,token);
     tokenuser person(username,token);
            logintohomepage(person);
 
