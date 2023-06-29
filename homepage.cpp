@@ -6,14 +6,16 @@ homepage::homepage(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::homepage)
 {    ui->setupUi(this);
+     setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint);
+
 
      chatClient = new ChatClient(this);
      adduser =new newchatusername();
      logout = new confirmlogout();
      connect(adduser, &newchatusername::sendchatusernametohomepage, this, &homepage::handlechatusernamesignal);
      connect(logout, &confirmlogout::hidehomepageaftersuccessfullogout, this, &homepage::handlehidehomepageaftersuccessfullogout);
-  connect(chatClient, &ChatClient::getuserlistrSuccess, this, &homepage::handlegetuserlistrSuccess);
-    // connect(chatClient, &ChatClient::logoutError, this, &confirmlogout::handlelogoutError);
+     connect(chatClient, &ChatClient::getuserlistSuccess, this, &homepage::handlegetuserlistrSuccess);
+
 
     //ui->label
 
@@ -66,6 +68,27 @@ void homepage::on_settingsButton_clicked()
 }
 
 
+void homepage::handlegetuserlistrSuccess(const QStringList &blocks)
+ {   QMenu *menu = new QMenu();
+   for (int i = 0; i < blocks.size(); ++i) {
+        QString str = QString(blocks.at(i)).leftJustified(51, ' ');
+ menu->addAction(str);
+
+        menu->popup(QPoint(ui->room_paneluser->pos().x()+256, ui->room_paneluser->pos().y()+123+i));
+
+    }
+    connect(menu, &QMenu::triggered, this, &homepage::buttonsProc);
+}
+
+
+void homepage::buttonsProc(QAction *action){
+    ui->profile_lable->setText(action->text());
+    if(action->text()=="sanaz"){
+        ui->chat_panel->addAction("hooooooooooooooooo");
+    }
+  }
+
+
 
 
 
@@ -86,27 +109,31 @@ void homepage::handlechatusernamesignal(QString chatusername){
 
 }
 
-void homepage::handlegetuserlistrSuccess(const QStringList &blocks)
- {   QMenu *menu = new QMenu();
-   for (int i = 0; i < blocks.size(); ++i) {
-        QString str = QString(blocks.at(i)).leftJustified(51, ' ');
- menu->addAction(str);
-
-        menu->popup(QPoint(ui->room_paneluser->pos().x()+256, ui->room_paneluser->pos().y()+123+i));
-
-    }
-    connect(menu, &QMenu::triggered, this, &homepage::buttonsProc);
-}
-  void homepage::buttonsProc(QAction *action){
-    ui->profile_lable->setText(action->text());
-    if(action->text()=="sanaz"){
-        ui->chat_panel->addAction("hooooooooooooooooo");
-    }
-  }
 
 void homepage::on_pushButton_getuserlist_on_homepage_clicked()
 {
     QString token = receivedUser.getToken();
     chatClient->getuserlist(token);
+}
+
+
+void homepage::on_pushButton_getuserchats_on_homepage_clicked()
+{
+    QString token = receivedUser.getToken();
+    chatClient->getuserchats(token,"khar");
+}
+
+
+void homepage::on_pushButton_creategroup_clicked()
+{
+    QString token = receivedUser.getToken();
+    chatClient->creategroup(token,"hg_firstgroupcreated");
+}
+
+
+void homepage::on_pushButton_getgrouplist_clicked()
+{
+    QString token = receivedUser.getToken();
+    chatClient->getgrouplist(token);
 }
 
