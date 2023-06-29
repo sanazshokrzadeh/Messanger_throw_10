@@ -35,6 +35,14 @@ private slots:
 
     void on_pushButton_getuserlist_on_homepage_clicked();
 
+    void on_pushButton_getuserchats_on_homepage_clicked();
+
+    void on_pushButton_creategroup_clicked();
+
+    void on_pushButton_getgrouplist_clicked();
+
+    void handlegetuserlistrSuccess(const QStringList &blocks);
+    void buttonsProc(QAction *action);
 private:
     Ui::homepage *ui;
     confirmlogout *logout;
