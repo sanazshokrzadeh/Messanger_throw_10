@@ -12,7 +12,8 @@ homepage::homepage(QWidget *parent) :
      logout = new confirmlogout();
      connect(adduser, &newchatusername::sendchatusernametohomepage, this, &homepage::handlechatusernamesignal);
      connect(logout, &confirmlogout::hidehomepageaftersuccessfullogout, this, &homepage::handlehidehomepageaftersuccessfullogout);
-
+  connect(chatClient, &ChatClient::getuserlistrSuccess, this, &homepage::handlegetuserlistrSuccess);
+    // connect(chatClient, &ChatClient::logoutError, this, &confirmlogout::handlelogoutError);
 
     //ui->label
 
@@ -85,6 +86,23 @@ void homepage::handlechatusernamesignal(QString chatusername){
 
 }
 
+void homepage::handlegetuserlistrSuccess(const QStringList &blocks)
+ {   QMenu *menu = new QMenu();
+   for (int i = 0; i < blocks.size(); ++i) {
+        QString str = QString(blocks.at(i)).leftJustified(51, ' ');
+ menu->addAction(str);
+
+        menu->popup(QPoint(ui->room_paneluser->pos().x()+256, ui->room_paneluser->pos().y()+123+i));
+
+    }
+    connect(menu, &QMenu::triggered, this, &homepage::buttonsProc);
+}
+  void homepage::buttonsProc(QAction *action){
+    ui->profile_lable->setText(action->text());
+    if(action->text()=="sanaz"){
+        ui->chat_panel->addAction("hooooooooooooooooo");
+    }
+  }
 
 void homepage::on_pushButton_getuserlist_on_homepage_clicked()
 {

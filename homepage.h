@@ -32,10 +32,10 @@ private slots:
     void handlehidehomepageaftersuccessfullogout();
 
     void handlechatusernamesignal(QString chatusername);
-
+    void handlegetuserlistrSuccess(const QStringList &blocks);
     void on_pushButton_getuserlist_on_homepage_clicked();
-
-private:
+ void buttonsProc(QAction *action);
+   private:
     Ui::homepage *ui;
     confirmlogout *logout;
     ChatClient *chatClient;
