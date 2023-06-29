@@ -85,3 +85,10 @@ void homepage::handlechatusernamesignal(QString chatusername){
 
 }
 
+
+void homepage::on_pushButton_getuserlist_on_homepage_clicked()
+{
+    QString token = receivedUser.getToken();
+    chatClient->getuserlist(token);
+}
+

@@ -78,6 +78,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
 {
     QString requestType = reply->property("requestType").toString();
     QString replyMessage = reply->readAll();
+    qDebug()<<replyMessage;
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(replyMessage.toUtf8());
     QJsonObject jsonObj = jsonDoc.object();
@@ -94,9 +95,6 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             emit signUpSuccess();
             // SignUp successful, do something
         }
-        else if (code == "204") {
-            emit signUpError("Duplicate request");
-        }
         else {
             emit signUpError("Error: " + message);
         }
@@ -111,9 +109,6 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
           emit logInSuccess(token);
 
             // LogIn successful, do something with the token
-        }
-        else if (code == "401") {
-            emit logInError("Incorrect information");
         }
         else {
             emit logInError("Error: " + message);
@@ -135,6 +130,15 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
         }
         else {
             emit sendmessageuserError("Error: " + message);
+        }
+    }
+    else if (requestType == "getuserlist") {
+        if (code == "200") {
+            emit getuserlistrSuccess();
+            // sendmessageuser successful, do something
+        }
+        else {
+            emit getuserlistError("Error: " + message);
         }
     }
 

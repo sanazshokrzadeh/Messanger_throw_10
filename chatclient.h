@@ -34,6 +34,9 @@ signals:
     void AlreadyLogIn();
     void sendmessageuserSuccess();
     void sendmessageuserError(const QString &errorMessage);
+    void getuserlistrSuccess();
+    void getuserlistError(const QString &errorMessage);
+
 
 private slots:
     void handleNetworkReply(QNetworkReply *reply);

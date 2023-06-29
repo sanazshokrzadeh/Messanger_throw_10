@@ -33,6 +33,8 @@ private slots:
 
     void handlechatusernamesignal(QString chatusername);
 
+    void on_pushButton_getuserlist_on_homepage_clicked();
+
 private:
     Ui::homepage *ui;
     confirmlogout *logout;
