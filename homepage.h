@@ -40,14 +40,15 @@ private slots:
 
 
 
-    void on_pushButton_getuserchats_on_homepage_clicked();
 
-    void on_pushButton_creategroup_clicked();
+
+
 
 
 
     void handlegetuserlistrSuccess(const QStringList &blocks);
     void handlegetgrouplistSuccess(const QStringList &blocks);
+    void handlegetuserchatsSuccess(const QStringList &blocks);
     void refreshContacts();
     void contactClicked(QListWidgetItem *item);
     void groupClicked(QListWidgetItem *item);
@@ -55,14 +56,12 @@ private slots:
     void channelClicked(QListWidgetItem *item);
     void handlegetchannellistSuccess(const QStringList &blocks);
     void on_sendButton_clicked();
-
-
-
+    void refreshChatroom();
 
     void on_pushButton_creategroup_on_homepage_clicked();
 
-    void on_pushButton_3_clicked();
 
+    void readInformationFromFile();
 private:
     Ui::homepage *ui;
     confirmlogout *logout;

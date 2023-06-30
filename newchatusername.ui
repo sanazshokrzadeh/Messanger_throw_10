@@ -6,48 +6,98 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>191</width>
-    <height>192</height>
+    <width>224</width>
+    <height>199</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
-     <width>171</width>
-     <height>161</height>
+     <y>80</y>
+     <width>201</width>
+     <height>60</height>
     </rect>
    </property>
    <property name="title">
-    <string>Enter a username</string>
+    <string>Username / ID</string>
    </property>
    <widget class="QLineEdit" name="lineEdit_username_on_newchatusername">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>40</y>
-      <width>131</width>
-      <height>41</height>
+      <x>10</x>
+      <y>20</y>
+      <width>181</width>
+      <height>30</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_add_on_newchatusername">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>100</y>
-      <width>111</width>
-      <height>29</height>
-     </rect>
+    <property name="styleSheet">
+     <string notr="true">padding-left:3px;</string>
     </property>
-    <property name="text">
-     <string>Add</string>
+    <property name="frame">
+     <bool>false</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Enter friend's username</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_add_on_newchatusername">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>150</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="whatsThis">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;type your friend username&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+		background-color:rgb(193, 225, 193);
+	color: rgb(106, 106, 106);
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 5px;
+	padding: 10px;
+	font: 700 9pt &quot;Exo 2&quot;;
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>Enter</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>191</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget
+{
+	color: rgb(64, 64, 64);
+  	font: 900 14pt &quot;Exo 2&quot;;
+}</string>
+   </property>
+   <property name="text">
+    <string>Add your friends</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -217,7 +217,7 @@ void createFilesForBlocks(const QStringList& blocks)
         QFile file(filePath);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream out(&file);
-            //qDebug()<<"file named"<<fileName<<"created\n";
+            qDebug()<<"file named"<<fileName<<"created\n";
             // Write the block source to the file
             //out << blockSource << '\n';
 
@@ -230,7 +230,7 @@ void createFilesForBlocks(const QStringList& blocks)
 }
 void createFilesForgroups(const QStringList& blocks)
 {
-    QString folderName = "Group";
+    QString folderName = "group";
 
 
     // Create the folder if it doesn't exist
@@ -251,7 +251,7 @@ void createFilesForgroups(const QStringList& blocks)
         QFile file(filePath);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream out(&file);
-            //qDebug()<<"file named"<<fileName<<"created\n";
+            qDebug()<<"file named"<<fileName<<"created\n";
             // Write the block source to the file
             //out << blockSource << '\n';
 
@@ -285,7 +285,7 @@ void createFilesForchannels(const QStringList& blocks)
         QFile file(filePath);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream out(&file);
-            //qDebug()<<"file named"<<fileName<<"created\n";
+            qDebug()<<"file named"<<fileName<<"created\n";
             // Write the block source to the file
             //out << blockSource << '\n';
 
@@ -300,7 +300,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
 {
     QString requestType = reply->property("requestType").toString();
     QString replyMessage = reply->readAll();
-    //qDebug() << replyMessage;
+   qDebug() << replyMessage;
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(replyMessage.toUtf8());
     QJsonObject jsonObj = jsonDoc.object();
@@ -308,7 +308,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
     QString message = jsonObj["message"].toString();
     QString code = jsonObj["code"].toString();
 
-    qDebug() << "\n" <<"Received Reply:";
+    qDebug() << "Received Reply:";
     qDebug() << "Message:" << message;
     qDebug() << "Code:" << code;
 
@@ -389,7 +389,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
         }
     else if (requestType == "getuserchats") {
         if (code == "200") {
-            emit getuserchatsSuccess();
+          //  emit getuserchatsSuccess();
             // getuserchats successful, do something
 
             QJsonObject blocksObj = jsonObj;
@@ -399,7 +399,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             QStringList keys = blocksObj.keys();
             int numBlocks = keys.size();
             //qDebug() << "Number of blocks:" << numBlocks;
-
+            QStringList message;
             for (int i = 0; i < numBlocks; ++i) {
                 QString blockKey = "block " + QString::number(i);
                 QJsonObject blockObj = blocksObj.value(blockKey).toObject();
@@ -412,9 +412,14 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
                 qDebug() << "src:" << src;
                 qDebug() << "dst:" << dst;
                 qDebug() << "date:" << date;
+                message<<body<<dst<<src<<date;
+
+
+
                 // Do something with the block contents
 
             }
+            emit getuserchatsSuccess(message);
         }
         else {
             emit getuserchatsError("Error: " + message);

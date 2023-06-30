@@ -20,6 +20,8 @@ private slots:
     void on_pushButton_logout_on_confirmlogout_clicked();
     void handlelogoutSuccess();
     void handlelogoutError(const QString &errorMessage);
+    void on_passwordeye_clicked();
+
 signals:
     void hidehomepageaftersuccessfullogout();
 

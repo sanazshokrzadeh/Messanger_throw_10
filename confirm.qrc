@@ -7,4 +7,10 @@
         <file>send/icons8-send-40.png</file>
         <file>send/icons8-send-80.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>send/icons8-more-30.png</file>
+        <file>send/icons8-more-40.png</file>
+        <file>send/icons8-more-80.png</file>
+        <file>send/icons8-menu-80.png</file>
+    </qresource>
 </RCC>

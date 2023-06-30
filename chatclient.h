@@ -51,7 +51,7 @@ signals:
     void sendmessageuserError(const QString &errorMessage);
     void getuserlistSuccess(const QStringList & blocks);
     void getuserlistError(const QString &errorMessage);
-    void getuserchatsSuccess();
+    void getuserchatsSuccess( QStringList blocks);
     void getuserchatsError(const QString &errorMessage);
 
     void createchannelSuccess();

@@ -10,6 +10,7 @@ confirmlogout::confirmlogout(QWidget *parent) :
     ui->setupUi(this);
     connect(chatClient, &ChatClient::logoutSuccess, this, &confirmlogout::handlelogoutSuccess);
     connect(chatClient, &ChatClient::logoutError, this, &confirmlogout::handlelogoutError);
+     ui->passwordeye->setIcon(QIcon(":/img/img/icons8-closed-eye-24.png"));
 }
 
 confirmlogout::~confirmlogout()
@@ -55,4 +56,17 @@ void confirmlogout::handlelogoutError(const QString &errorMessage)
 }
 
 
+
+
+void confirmlogout::on_passwordeye_clicked()
+{
+    if(ui->lineEdit_password_on_confirmlogout->echoMode()==QLineEdit::Password){
+        //  ui->p_visible_OF->setIcon(QIcon("../res/icon/visibility-off"));
+        ui->passwordeye->setIcon(QIcon(":/img/img/icons8-eye-50.png"));
+        ui->lineEdit_password_on_confirmlogout->setEchoMode(QLineEdit::Normal);}
+
+    else if(ui->lineEdit_password_on_confirmlogout->echoMode()==QLineEdit::Normal){
+        ui->passwordeye->setIcon(QIcon(":/img/img/icons8-closed-eye-24.png"));
+        ui->lineEdit_password_on_confirmlogout->setEchoMode(QLineEdit::Password);}
+}
 

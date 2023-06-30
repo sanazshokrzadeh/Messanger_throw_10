@@ -78,8 +78,22 @@ border-color: rgb(134, 134, 134);</string>
     </property>
     <item>
      <widget class="QTabWidget" name="tabWidgetchannel">
+      <property name="styleSheet">
+       <string notr="true">	
+QPushButton
+{
+		background-color:rgb(193, 225, 193);
+	color: rgb(106, 106, 106);
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+border-radius:5px;
+	padding: 10px;
+	font: 700 9pt &quot;Exo 2&quot;;
+}</string>
+      </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -103,66 +117,24 @@ border-color: rgb(134, 134, 134);</string>
            <height>32</height>
           </rect>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton { border-radius: 25px;
+ }</string>
+         </property>
          <property name="text">
           <string>Add</string>
          </property>
         </widget>
        </widget>
-       <widget class="QPushButton" name="pushButton_getuserchats_on_homepage">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>110</y>
-          <width>93</width>
-          <height>29</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>getuserchats</string>
-        </property>
-       </widget>
-       <widget class="QScrollArea" name="room_paneluser">
+       <widget class="QListWidget" name="contactListWidget">
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>160</y>
-          <width>240</width>
-          <height>451</height>
+          <y>30</y>
+          <width>231</width>
+          <height>591</height>
          </rect>
         </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="roomPanelContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>238</width>
-           <height>449</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <property name="spacing">
-           <number>5</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QListWidget" name="contactListWidget"/>
-          </item>
-         </layout>
-        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_3">
@@ -188,7 +160,7 @@ border-color: rgb(134, 134, 134);</string>
           </rect>
          </property>
          <property name="text">
-          <string>create group</string>
+          <string>creategroup</string>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButtonadd_joingroup_on_homepage">
@@ -201,7 +173,7 @@ border-color: rgb(134, 134, 134);</string>
           </rect>
          </property>
          <property name="text">
-          <string>join group</string>
+          <string>joingroup</string>
          </property>
         </widget>
        </widget>
@@ -209,23 +181,10 @@ border-color: rgb(134, 134, 134);</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>118</y>
+          <y>28</y>
           <width>231</width>
-          <height>461</height>
+          <height>591</height>
          </rect>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="geometry">
-         <rect>
-          <x>60</x>
-          <y>60</y>
-          <width>93</width>
-          <height>29</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>getgrouplist</string>
         </property>
        </widget>
       </widget>
@@ -273,10 +232,36 @@ border-color: rgb(134, 134, 134);</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>140</y>
+          <y>110</y>
           <width>231</width>
-          <height>481</height>
+          <height>511</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>191</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>sendmessagechannel</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>59</y>
+          <width>191</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>getchannelchats</string>
         </property>
        </widget>
       </widget>
@@ -368,7 +353,7 @@ border-color: rgb(134, 134, 134);</string>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">
+       <string notr="true">background_color:rgb(64, 64, 64);
 border-width:0px;</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -452,39 +437,6 @@ font: 700 9pt &quot;Exo 2&quot;;</string>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pinButton">
-         <property name="minimumSize">
-          <size>
-           <width>40</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>40</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-	border-style: solid;
-	border-width: 0px;
-	width: 50px;
-	height: 50px;
-}
-
-QPushButton:hover {
-	
-	background-color: rgb(190, 190, 190);
-}</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../Zapchat-main/res/icon/pin_icon.png</normaloff>../Zapchat-main/res/icon/pin_icon.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="settingsButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -507,8 +459,8 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>../Zapchat-main/res/icon/menu_icon.png</normaloff>../Zapchat-main/res/icon/menu_icon.png</iconset>
+          <iconset resource="confirm.qrc">
+           <normaloff>:/send/icons8-menu-80.png</normaloff>:/send/icons8-menu-80.png</iconset>
          </property>
         </widget>
        </item>
@@ -532,6 +484,9 @@ QPushButton:hover {
 	border-width: 0px;
 	width: 50px;
 	height: 50px;
+border-radius:20px;	
+
+
 }
 
 QPushButton:hover {
@@ -540,8 +495,8 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>../Zapchat-main/res/icon/more_icon.png</normaloff>../Zapchat-main/res/icon/more_icon.png</iconset>
+          <iconset resource="confirm.qrc">
+           <normaloff>:/send/icons8-more-80.png</normaloff>:/send/icons8-more-80.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -577,9 +532,13 @@ QPushButton:hover {
         <number>2</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string/>
+        <widget class="QTextBrowser" name="chatroom">
+         <property name="font">
+          <font>
+           <family>Futura</family>
+           <pointsize>17</pointsize>
+           <italic>true</italic>
+          </font>
          </property>
         </widget>
        </item>
