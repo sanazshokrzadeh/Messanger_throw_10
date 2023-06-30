@@ -3,7 +3,7 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
-
+QT += quick
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     chatclient.cpp \
     confirmlogout.cpp \
+    creategroupname.cpp \
     homepage.cpp \
     info.cpp \
     logindialog.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 HEADERS += \
     chatclient.h \
     confirmlogout.h \
+    creategroupname.h \
     homepage.h \
     info.h \
     logindialog.h \
@@ -36,6 +38,7 @@ HEADERS += \
 
 FORMS += \
     confirmlogout.ui \
+    creategroupname.ui \
     homepage.ui \
     logindialog.ui \
     mainwindow.ui \

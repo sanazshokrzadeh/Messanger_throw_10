@@ -2,10 +2,15 @@
 #define HOMEPAGE_H
 
 #include <QDialog>
+#include "QtWidgets/qlistwidget.h"
 #include"confirmlogout.h"
 #include "tokenuser.h"
 #include"chatclient.h"
 #include"newchatusername.h"
+#include<QObject>
+#include<QMenu>
+extern tokenuser receivedUser;
+class creategroupname;
 
 namespace Ui {
 class homepage;
@@ -33,24 +38,42 @@ private slots:
 
     void handlechatusernamesignal(QString chatusername);
 
-    void on_pushButton_getuserlist_on_homepage_clicked();
+
 
     void on_pushButton_getuserchats_on_homepage_clicked();
 
     void on_pushButton_creategroup_clicked();
 
-    void on_pushButton_getgrouplist_clicked();
+
 
     void handlegetuserlistrSuccess(const QStringList &blocks);
-    void buttonsProc(QAction *action);
+    void handlegetgrouplistSuccess(const QStringList &blocks);
+    void refreshContacts();
+    void contactClicked(QListWidgetItem *item);
+    void groupClicked(QListWidgetItem *item);
+    void startRefreshTimer();
+    void channelClicked(QListWidgetItem *item);
+    void handlegetchannellistSuccess(const QStringList &blocks);
+    void on_sendButton_clicked();
+
+
+
+
+    void on_pushButton_creategroup_on_homepage_clicked();
+
+    void on_pushButton_3_clicked();
+
 private:
     Ui::homepage *ui;
     confirmlogout *logout;
     ChatClient *chatClient;
     newchatusername *adduser;
+    creategroupname *groupname;
+
 
 signals:
     void sig_HmPage(tokenuser person);
+    void sendtokentocreategroupname(const QString &token);
 };
 
 #endif // HOMEPAGE_H

@@ -1,29 +1,53 @@
 #include"homepage.h"
 #include "ui_homepage.h"
 #include<QMenu>
-tokenuser receivedUser;
+#include <QObject>
+#include<QTimer>
+#include"creategroupname.h"
+
+tokenuser receivedUser=tokenuser("","");
+
+
+
+QStringList contatctuser,grouplist,channelList;
 homepage::homepage(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::homepage)
 {    ui->setupUi(this);
      setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint);
 
-
      chatClient = new ChatClient(this);
      adduser =new newchatusername();
      logout = new confirmlogout();
+     groupname = nullptr;
      connect(adduser, &newchatusername::sendchatusernametohomepage, this, &homepage::handlechatusernamesignal);
      connect(logout, &confirmlogout::hidehomepageaftersuccessfullogout, this, &homepage::handlehidehomepageaftersuccessfullogout);
      connect(chatClient, &ChatClient::getuserlistSuccess, this, &homepage::handlegetuserlistrSuccess);
+     connect(chatClient, &ChatClient::getgrouplistSuccess, this, &homepage::handlegetgrouplistSuccess);
+     connect(chatClient, &ChatClient::getchannellistSuccess, this, &homepage::handlegetchannellistSuccess);
+     // Set up the QTimer to refresh the contacts every second
+
+     QTimer* refreshTimer = new QTimer(this);
+     connect(refreshTimer, &QTimer::timeout, this, &homepage::refreshContacts);
+     refreshTimer->start(1000); // Refresh every 1 second
 
 
-    //ui->label
-
+     connect(ui->contactListWidget, &QListWidget::itemClicked, this, &homepage::contactClicked);
+     connect(ui->groupListWidget, &QListWidget::itemClicked, this, &homepage::groupClicked);
+     connect(ui->channelListWidget, &QListWidget::itemClicked, this, &homepage::channelClicked);
+     ui->sendButton->setIcon(QIcon(":/send/send/icons8-send-80.png"));
+     //ui->label
+     ui->partlabel->hide();
 
 //    login=new loginDialog(this);
     //    connect(login, &loginDialog::sig_logintohomepage, this, &homepage::handletoken);
 }
-
+void homepage::startRefreshTimer()
+{
+     QTimer* refreshTimer = new QTimer(this);
+     connect(refreshTimer, &QTimer::timeout, this, &homepage::refreshContacts);
+     refreshTimer->start(500); // Refresh every 1 second
+}
 void homepage::setPerson(tokenuser person)
 {
     // Use the person object here or store it as a member variable
@@ -69,24 +93,80 @@ void homepage::on_settingsButton_clicked()
 
 
 void homepage::handlegetuserlistrSuccess(const QStringList &blocks)
- {   QMenu *menu = new QMenu();
-   for (int i = 0; i < blocks.size(); ++i) {
-        QString str = QString(blocks.at(i)).leftJustified(51, ' ');
- menu->addAction(str);
+{
+    contatctuser=blocks;
 
-        menu->popup(QPoint(ui->room_paneluser->pos().x()+256, ui->room_paneluser->pos().y()+123+i));
-
-    }
-    connect(menu, &QMenu::triggered, this, &homepage::buttonsProc);
 }
+void homepage::handlegetgrouplistSuccess(const QStringList &blocks)
+{
+    grouplist=blocks;
 
+}
+void homepage::handlegetchannellistSuccess(const QStringList &blocks)
+{
+    channelList=blocks;
 
-void homepage::buttonsProc(QAction *action){
-    ui->profile_lable->setText(action->text());
-    if(action->text()=="sanaz"){
-        ui->chat_panel->addAction("hooooooooooooooooo");
+}
+ void homepage::contactClicked(QListWidgetItem* item)
+ {
+    QString contact = item->text();
+    ui->profile_lable->setText(contact);
+    ui->partlabel->setText("user");
+    // Handle the click event for the selected contact
+    // You can implement your own logic here, such as opening a chat window, showing contact details, etc.
+ }
+ void homepage::channelClicked(QListWidgetItem* item)
+ {
+    QString contact = item->text();
+    ui->profile_lable->setText(contact);
+ ui->partlabel->setText("channel");
+
+    // Handle the click event for the selected contact
+    // You can implement your own logic here, such as opening a chat window, showing contact details, etc.
+ }
+ void homepage::groupClicked(QListWidgetItem* item)
+ {
+    QString contact = item->text();
+    ui->profile_lable->setText(contact);
+ ui->partlabel->setText("group");
+    // Handle the click event for the selected contact
+    // You can implement your own logic here, such as opening a chat window, showing contact details, etc.
+ }
+ void homepage::refreshContacts()
+ {
+    QString token = receivedUser.getToken();
+    chatClient->getuserlist(token);
+    chatClient->getgrouplist(token);
+    chatClient->getchannellist(token);
+    // Clear the existing contacts and groups in the list widgets
+
+    ui->groupListWidget->clear();
+    // Clear the existing contacts in the list widget
+    ui->contactListWidget->clear();
+    ui->channelListWidget->clear();
+    // Retrieve the updated contact list
+    QStringList contacts = contatctuser;// Replace with your own logic to get the updated contacts
+    QStringList groups = grouplist;
+    QStringList channels=channelList;
+    // Add the contacts to the list widget
+    for (const QString& contact : contacts) {
+        QListWidgetItem* item = new QListWidgetItem(contact);
+        item->setFlags(item->flags() | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        ui->contactListWidget->addItem(item);
     }
-  }
+    for (const QString& group : groups) {
+        QListWidgetItem* item = new QListWidgetItem(group);
+        item->setFlags(item->flags() | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        ui->groupListWidget->addItem(item);
+    }
+    for (const QString& channel : channels) {
+        QListWidgetItem* item = new QListWidgetItem(channel);
+        item->setFlags(item->flags() | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        ui->channelListWidget->addItem(item);
+    }
+ }
+
+
 
 
 
@@ -94,7 +174,6 @@ void homepage::buttonsProc(QAction *action){
 
 void homepage::on_pushButtonadd_2_clicked()
 {
-
     adduser->show();
 }
 
@@ -110,11 +189,7 @@ void homepage::handlechatusernamesignal(QString chatusername){
 }
 
 
-void homepage::on_pushButton_getuserlist_on_homepage_clicked()
-{
-    QString token = receivedUser.getToken();
-    chatClient->getuserlist(token);
-}
+
 
 
 void homepage::on_pushButton_getuserchats_on_homepage_clicked()
@@ -127,11 +202,47 @@ void homepage::on_pushButton_getuserchats_on_homepage_clicked()
 void homepage::on_pushButton_creategroup_clicked()
 {
     QString token = receivedUser.getToken();
-    chatClient->creategroup(token,"hg_firstgroupcreated");
+    emit sendtokentocreategroupname(token);
 }
 
 
-void homepage::on_pushButton_getgrouplist_clicked()
+
+
+
+void homepage::on_sendButton_clicked()
+{
+   QString token = receivedUser.getToken();
+    QString part = ui->partlabel->text();
+    if(part == "user"){
+
+        chatClient->sendmessegeuser(token,ui->profile_lable->text(),ui->messagebar->toPlainText());
+        ui->messagebar->clear();
+
+    }
+    else if(part == "group"){
+        chatClient->sendmessegegroup(token,ui->profile_lable->text(),ui->messagebar->toPlainText());
+        ui->messagebar->clear();
+
+    }
+    else if(part == "channel"){
+
+    }
+
+}
+
+
+void homepage::on_pushButton_creategroup_on_homepage_clicked()
+{
+    if (!groupname) {
+            groupname = new creategroupname(this); // Create an instance of the new window
+            groupname->setAttribute(Qt::WA_DeleteOnClose); // Delete the window when closed
+        }
+
+        groupname->show();
+}
+
+
+void homepage::on_pushButton_3_clicked()
 {
     QString token = receivedUser.getToken();
     chatClient->getgrouplist(token);

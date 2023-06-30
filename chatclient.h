@@ -56,7 +56,7 @@ signals:
 
     void createchannelSuccess();
     void createchannelError(const QString &errorMessage);
-    void getchannellistSuccess();
+    void getchannellistSuccess(const QStringList & blocks);
     void getchannellistError(const QString &errorMessage);
     void joinchannelSuccess();
     void joinchannelError(const QString &errorMessage);
@@ -67,7 +67,7 @@ signals:
 
     void creategroupSuccess();
     void creategroupError(const QString &errorMessage);
-    void getgrouplistSuccess();
+    void getgrouplistSuccess(const QStringList & blocks);
     void getgrouplistError(const QString &errorMessage);
     void joingroupSuccess();
     void joingroupError(const QString &errorMessage);

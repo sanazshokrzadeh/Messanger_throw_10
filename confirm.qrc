@@ -3,4 +3,8 @@
         <file>confirm/closed-eye-24.png</file>
         <file>confirm/eye-50.png</file>
     </qresource>
+    <qresource prefix="/send">
+        <file>send/icons8-send-40.png</file>
+        <file>send/icons8-send-80.png</file>
+    </qresource>
 </RCC>

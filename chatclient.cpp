@@ -217,7 +217,7 @@ void createFilesForBlocks(const QStringList& blocks)
         QFile file(filePath);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream out(&file);
-            qDebug()<<"file named"<<fileName<<"created\n";
+            //qDebug()<<"file named"<<fileName<<"created\n";
             // Write the block source to the file
             //out << blockSource << '\n';
 
@@ -228,8 +228,74 @@ void createFilesForBlocks(const QStringList& blocks)
         }
     }
 }
+void createFilesForgroups(const QStringList& blocks)
+{
+    QString folderName = "Group";
 
 
+    // Create the folder if it doesn't exist
+    QDir folder;
+    if (!folder.exists(folderName))
+        folder.mkdir(folderName);
+
+    // Create the file inside the folder
+
+    for (int i = 0; i < blocks.size(); ++i) {
+
+        QString blockSource = blocks.at(i);
+
+        // Create a file name based on the block source
+        QString fileName = blockSource + ".txt";
+        QString filePath = folder.absoluteFilePath(fileName);
+        // Open the file for writing
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            //qDebug()<<"file named"<<fileName<<"created\n";
+            // Write the block source to the file
+            //out << blockSource << '\n';
+
+            // Close the file
+            file.close();
+        } else {
+            qDebug() << "Failed to create file:" << fileName;
+        }
+    }
+}
+void createFilesForchannels(const QStringList& blocks)
+{
+    QString folderName = "channel";
+
+
+    // Create the folder if it doesn't exist
+    QDir folder;
+    if (!folder.exists(folderName))
+        folder.mkdir(folderName);
+
+    // Create the file inside the folder
+
+    for (int i = 0; i < blocks.size(); ++i) {
+
+        QString blockSource = blocks.at(i);
+
+        // Create a file name based on the block source
+        QString fileName = blockSource + ".txt";
+        QString filePath = folder.absoluteFilePath(fileName);
+        // Open the file for writing
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            //qDebug()<<"file named"<<fileName<<"created\n";
+            // Write the block source to the file
+            //out << blockSource << '\n';
+
+            // Close the file
+            file.close();
+        } else {
+            qDebug() << "Failed to create file:" << fileName;
+        }
+    }
+}
 void ChatClient::handleNetworkReply(QNetworkReply *reply)
 {
     QString requestType = reply->property("requestType").toString();
@@ -242,7 +308,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
     QString message = jsonObj["message"].toString();
     QString code = jsonObj["code"].toString();
 
-    qDebug() << "Received Reply:";
+    qDebug() << "\n" <<"Received Reply:";
     qDebug() << "Message:" << message;
     qDebug() << "Code:" << code;
 
@@ -309,7 +375,8 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
                     QJsonObject blockObj = blocksObj.value(blockKey).toObject();
                     QString src = blockObj["src"].toString();
                     block<<src;
-                    qDebug() << "block" << i << "src:" << src;
+                    qDebug() << "block" << i ;
+                    qDebug() << "src:" << src;
                     // Do something with the src value
 
                 }
@@ -367,7 +434,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
     }
     else if (requestType == "getgrouplist") {
         if (code == "200") {
-            emit getgrouplistSuccess();
+
             // getgrouplist successful, do something
             QJsonObject blocksObj = jsonObj;
             blocksObj.remove("message");
@@ -376,15 +443,18 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             QStringList keys = blocksObj.keys();
             int numBlocks = keys.size();
             //qDebug() << "Number of blocks:" << numBlocks;
-
+            QStringList blocks;
             for (int i = 0; i < numBlocks; ++i) {
                 QString blockKey = "block " + QString::number(i);
                 QJsonObject blockObj = blocksObj.value(blockKey).toObject();
                 QString group_name = blockObj["group_name"].toString();
+                blocks<<group_name;
                 qDebug() << "block" << i ;
                 qDebug() <<"group_name:" << group_name;
                 // Do something with the group_name value
             }
+            createFilesForgroups(blocks);
+              emit getgrouplistSuccess(blocks);
         }
         else {
             emit getgrouplistError("Error: " + message);
@@ -456,7 +526,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
     }
     else if (requestType == "getchannellist") {
         if (code == "200") {
-            emit getchannellistSuccess();
+
             // getchannellist successful, do something
             QJsonObject blocksObj = jsonObj;
             blocksObj.remove("message");
@@ -465,15 +535,18 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             QStringList keys = blocksObj.keys();
             int numBlocks = keys.size();
             //qDebug() << "Number of blocks:" << numBlocks;
-
+            QStringList blocks;
             for (int i = 0; i < numBlocks; ++i) {
                 QString blockKey = "block " + QString::number(i);
                 QJsonObject blockObj = blocksObj.value(blockKey).toObject();
                 QString channel_name = blockObj["channel_name"].toString();
                 qDebug() << "block" << i;
                 qDebug() << "channel_name:" << channel_name;
+                blocks<<channel_name;
                 // Do something with the channel_name value
             }
+            createFilesForchannels(blocks);
+              emit getchannellistSuccess(blocks);
         }
         else {
             emit getchannellistError("Error: " + message);
