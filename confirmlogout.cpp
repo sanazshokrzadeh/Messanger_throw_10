@@ -2,6 +2,7 @@
 #include "ui_confirmlogout.h"
 #include <QMessageBox>
 #include<QFile>
+#include<homepage.h>
 confirmlogout::confirmlogout(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::confirmlogout)
@@ -30,6 +31,8 @@ void confirmlogout::on_pushButton_logout_on_confirmlogout_clicked()
 
 void confirmlogout::handlelogoutSuccess()
 {
+    homepage *h;
+    h->handlelogoutSuccesshm();
     // Handle logout success
     QMessageBox::information(this, "logout", "logout Successful");
     QFile file("usertoken2.txt");

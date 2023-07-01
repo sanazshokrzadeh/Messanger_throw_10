@@ -196,6 +196,39 @@ void ChatClient::getchannelchats (const QString &token, const QString &dst)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+void createFiles(const QStringList& stringList, const QString& folderPath)
+{
+    // Create the folder if it doesn't exist
+    QDir folder(folderPath);
+    if (!folder.exists())
+        folder.mkpath(".");
+
+    foreach (const QString& str, stringList)
+    {
+        QString filePath = folderPath + "/" + str+".txt";
+        QFile file(filePath);
+
+        // Check if the file already exists
+        if (file.exists())
+        {
+            qWarning() << "File already exists:" << filePath;
+            continue;
+        }
+
+        // Create the file
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            file.close();
+            qDebug() << "File created successfully:" << filePath;
+        }
+        else
+        {
+            qWarning() << "Failed to create file:" << file.errorString();
+        }
+    }
+}
+
+
 void ChatClient::writeToFile(const QStringList& contactList, const QString& fileName)
 {
     // Open the file for writing
@@ -304,7 +337,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
                     // Do something with the src value
 
                 }
-               // createFilesForBlocks(block);
+               createFiles(block,"user");
                 writeToFile(block,"user_contacts.txt");
                 emit getuserlistSuccess(block);
             }
@@ -384,7 +417,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
                 // Do something with the group_name value
             }
             writeToFile(blocks,"grouplistoff.txt");
-            //createFilesForgroups(blocks);
+            createFiles(blocks,"group");
             emit getgrouplistSuccess(blocks);
         }
         else {
@@ -476,6 +509,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
                 // Do something with the channel_name value
             }
             writeToFile(blocks,"channellistoff.txt");
+            createFiles(blocks,"channel");
             emit getchannellistSuccess(blocks);
         }
         else {

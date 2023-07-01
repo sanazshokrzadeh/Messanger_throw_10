@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Join Channel</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(252, 253, 248);</string>
+  </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>

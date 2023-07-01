@@ -87,6 +87,8 @@ void homepage::setPerson(tokenuser person)
     QString username = person.getUsername();
     QString token = person.getToken();
     receivedUser=tokenuser(username,token);
+    ui->label_2->setText("Hi, Welcome "+username+"! :)");
+
 
 }
 
@@ -210,19 +212,23 @@ void homepage::handlegetgrouplistSuccess(const QStringList &blocks)
 
 void homepage::handlegetuserchatsSuccess(const QStringList &blocks)
 {
-    QString folderName = "user";
-    QDir folder;
-    if (!folder.exists(folderName))
-        folder.mkdir(folderName);
+       QString folderName = "user";
+    QDir folder("user");
+    if (!folder.exists())
+        folder.mkpath(".");
 
-    for (int i = 0; i < contatctuser.size(); ++i) {
-        QString blockSource = contatctuser.at(i);
-        QString fileName = blockSource + ".txt";
-        QString filePath = folder.absoluteFilePath(fileName);
+    foreach (const QString& blockSource, contatctuser)
+    {
+        QString filePath = folderName + "/" + blockSource+".txt";
+        QFile file(filePath);
+
+
+
+
 
         // Read existing content
         QString existingContent;
-        QFile file(filePath);
+
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream in(&file);
             existingContent = in.readAll();
@@ -249,30 +255,30 @@ void homepage::handlegetuserchatsSuccess(const QStringList &blocks)
             out << newContent;
             file.close();
         } else {
-            qDebug() << "Failed to append additions to file:" << fileName;
+            qDebug() << "Failed to append additions to file:" << blockSource;
         }
     }
 }
 
 void homepage::handlegetgroupchatsSuccess(const QStringList &blocks)
-{   QString folderName = "group";
-    QDir folder;
-    if (!folder.exists(folderName))
-        folder.mkdir(folderName);
+{
+    QString folderName = "group";
+    QDir folder("group");
+    if (!folder.exists())
+        folder.mkpath(".");
 
-    // Create the file inside the folder
+    foreach (const QString& blockSource, grouplist)
+    {
+        QString filePath = folderName + "/" + blockSource+".txt";
+        QFile file(filePath);
 
-    for (int i = 0; i < grouplist.size(); ++i) {
 
-        QString blockSource = grouplist.at(i);
 
-        // Create a file name based on the block source
-        QString fileName = blockSource + ".txt";
-        QString filePath = folder.absoluteFilePath(fileName);
+
         // Open the file for writing
         // Read existing content
         QString existingContent;
-        QFile file(filePath);
+
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream in(&file);
             existingContent = in.readAll();
@@ -299,30 +305,29 @@ void homepage::handlegetgroupchatsSuccess(const QStringList &blocks)
             out << newContent;
             file.close();
         } else {
-            qDebug() << "Failed to append additions to file:" << fileName;
+            qDebug() << "Failed to append additions to file:" << blockSource;
         }
     }
 }
 void homepage::handlegetchannelchatsSuccess(const QStringList &blocks)
 {
     QString folderName = "channel";
-    QDir folder;
-    if (!folder.exists(folderName))
-        folder.mkdir(folderName);
+    QDir folder("channel");
+    if (!folder.exists())
+        folder.mkpath(".");
 
-    // Create the file inside the folder
+    foreach (const QString& blockSource, channelList)
+    {
+        QString filePath = folderName + "/" + blockSource+".txt";
+        QFile file(filePath);
 
-    for (int i = 0; i < channelList.size(); ++i) {
 
-        QString blockSource = channelList.at(i);
 
-        // Create a file name based on the block source
-        QString fileName = blockSource + ".txt";
-        QString filePath = folder.absoluteFilePath(fileName);
+
         // Open the file for writing
         // Read existing content
         QString existingContent;
-        QFile file(filePath);
+
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream in(&file);
             existingContent = in.readAll();
@@ -349,24 +354,26 @@ void homepage::handlegetchannelchatsSuccess(const QStringList &blocks)
             out << newContent;
             file.close();
         } else {
-            qDebug() << "Failed to append additions to file:" << fileName;
+            qDebug() << "Failed to append additions to file:" << blockSource;
         }
     }
 }
 
 
 void homepage::readInformationFromFile()
-{if( ui->partlabel->text()=="user"|| ui->partlabel->text()=="channel"|| ui->partlabel->text()=="group"){
-        QString folderName = ui->partlabel->text();
-        QDir folder;
-        if (!folder.exists(folderName))
-            folder.mkdir(folderName);
-        QString blockSource = ui->profile_lable->text();
-        QString fileName = blockSource + ".txt";
-        QString filePath = folder.absoluteFilePath(fileName);
-        QFile file(filePath);
+{
+    if( ui->partlabel->text()=="user"|| ui->partlabel->text()=="channel"|| ui->partlabel->text()=="group"){
+           QString folderName = ui->partlabel->text();
+        QDir folder(folderName);
+        if (!folder.exists())
+            folder.mkpath(".");
+             QString blockSource = ui->profile_lable->text();
+
+            QString filePath = folderName + "/" + blockSource+".txt";
+            QFile file(filePath);
+
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qDebug() << "Failed to open file for reading"<<fileName;
+            qDebug() << "Failed to open file for reading"<<blockSource;
             return;
         }
         QString exist=ui->chatroom->toPlainText();
@@ -394,7 +401,7 @@ void homepage::readInformationFromFile()
 
                 existingChatroomContent+= time + '\n';
 
-                existingChatroomContent+="_______________________________________\n";
+                existingChatroomContent+="____________________________________________\n";
 
                 isBodyLine = true;
             }
@@ -592,4 +599,72 @@ void homepage::on_pushButton_joinchannel_on_homepage_clicked()
         Joinchannelname->show();
 }
 
+void deleteFile(const QString& filePath)
+{
+        QFile file(filePath);
 
+        // Check if the file exists
+        if (!file.exists())
+        {
+            qWarning() << "File does not exist:" << filePath;
+            return ;
+        }
+
+        // Attempt to remove the file
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            qWarning() << "Failed to delete file:" << file.errorString();
+            return ;
+        }file.close();
+
+        qDebug() << "File deleted successfully:" << filePath;
+        return ;
+}
+
+
+void homepage::handlelogoutSuccesshm(){
+    QString folderName = "channel";
+    QDir folder("channel");
+    if (!folder.exists())
+        folder.mkpath(".");
+
+    foreach (const QString& blockSource, channelList)
+    {
+        QString filePath = folderName + "/" + blockSource+".txt";
+        QFile file(filePath);
+
+
+        }
+    QString folderName2 = "group";
+    QDir folder2("group");
+    if (!folder2.exists())
+        folder2.mkpath(".");
+
+    foreach (const QString& blockSource, grouplist)
+    {
+        QString filePath = folderName2 + "/" + blockSource+".txt";
+        QFile file(filePath);
+
+
+
+            deleteFile(filePath);}
+    QString folderName3 = "user";
+    QDir folder3("user");
+    if (!folder3.exists())
+        folder3.mkpath(".");
+
+    foreach (const QString& blockSource, contatctuser)
+    {
+        QString filePath = folderName3 + "/" + blockSource+".txt";
+        QFile file(filePath);
+
+
+
+            deleteFile(filePath);
+        }
+        deleteFile("channellistoff.txt");
+        deleteFile("grouplistoff.txt");
+        deleteFile("user_contacts.txt");
+
+
+}

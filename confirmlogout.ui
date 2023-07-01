@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Confirm Logout</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(252, 253, 248);</string>
+  </property>
   <widget class="QGroupBox" name="password_groupBox">
    <property name="geometry">
     <rect>

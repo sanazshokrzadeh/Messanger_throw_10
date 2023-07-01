@@ -30,6 +30,7 @@ public:
     ~homepage();
     void setPerson( tokenuser person);
 
+    void handlelogoutSuccesshm();
 private slots:
     void on_moreButton_clicked();
     void on_pushButtonadd_2_clicked();

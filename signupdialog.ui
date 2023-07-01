@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Sign Up</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(252, 253, 248);</string>
+  </property>
   <widget class="QPushButton" name="pushButtonsignup2">
    <property name="geometry">
     <rect>

@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Set up the QTimer for the logo display duration
     timer = new QTimer(this);
     timer->setSingleShot(true); // Trigger the timeout only once
-    timer->setInterval(2000); // Adjust the duration as needed
+    timer->setInterval(1500); // Adjust the duration as needed
 
     // Create a QPropertyAnimation to animate the opacity property of the logo label
     QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect(ui->label);
