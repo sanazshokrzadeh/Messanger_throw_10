@@ -11,35 +11,42 @@ QT += quick
 SOURCES += \
     chatclient.cpp \
     confirmlogout.cpp \
+    createchannelname.cpp \
     creategroupname.cpp \
     homepage.cpp \
     info.cpp \
+    joinchannelname.cpp \
+    joingroupname.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
     newchatusername.cpp \
     signupdialog.cpp \
-    tokendeliver.cpp \
     tokenuser.cpp
 
 HEADERS += \
     chatclient.h \
     confirmlogout.h \
+    createchannelname.h \
     creategroupname.h \
     homepage.h \
     info.h \
+    joinchannelname.h \
+    joingroupname.h \
     logindialog.h \
     mainwindow.h \
     newchatusername.h \
     overload.h \
     signupdialog.h \
-    tokendeliver.h \
     tokenuser.h
 
 FORMS += \
     confirmlogout.ui \
+    createchannelname.ui \
     creategroupname.ui \
     homepage.ui \
+    joinchannelname.ui \
+    joingroupname.ui \
     logindialog.ui \
     mainwindow.ui \
     newchatusername.ui \

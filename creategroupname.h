@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "chatclient.h"
 #include "homepage.h"
+#include<QMessageBox>
 
 namespace Ui {
 class creategroupname;
@@ -20,6 +21,9 @@ public:
 private slots:
     void on_pushButton_creategroup_on_creategroupname_clicked();
 
+    void handlecreategroupsuccess(const QString &message);
+
+    void handlecreategrouperror(const QString &errormessage);
 private:
     Ui::creategroupname *ui;
     ChatClient *chatClient;

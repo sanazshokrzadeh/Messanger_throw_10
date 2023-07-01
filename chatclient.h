@@ -8,6 +8,7 @@
 #include <QJsonObject>
 
 
+
 class ChatClient : public QObject
 {
     Q_OBJECT
@@ -34,7 +35,7 @@ public:
     void joinchannel(const QString &token, const QString &group_name);
     void sendmessegechannel(const QString &token, const QString &dst,const QString &body);
     void getchannelchats(const QString &token, const QString &dst);
-
+    void writeToFile(const QStringList &contactList, const QString &fileName);
 
 
 signals:
@@ -51,29 +52,29 @@ signals:
     void sendmessageuserError(const QString &errorMessage);
     void getuserlistSuccess(const QStringList & blocks);
     void getuserlistError(const QString &errorMessage);
-    void getuserchatsSuccess( QStringList blocks);
+    void getuserchatsSuccess(const QStringList &blocks);
     void getuserchatsError(const QString &errorMessage);
 
-    void createchannelSuccess();
+    void createchannelSuccess(const QString &Message);
     void createchannelError(const QString &errorMessage);
-    void getchannellistSuccess(const QStringList & blocks);
+    void getchannellistSuccess(const QStringList &blocks);
     void getchannellistError(const QString &errorMessage);
-    void joinchannelSuccess();
+    void joinchannelSuccess(const QString &Message);
     void joinchannelError(const QString &errorMessage);
     void sendmessagechannelSuccess();
     void sendmessagechannelError(const QString &errorMessage);
-    void getchannelchatsSuccess();
+    void getchannelchatsSuccess(const QStringList & blocks);
     void getchannelchatsError(const QString &errorMessage);
 
-    void creategroupSuccess();
+    void creategroupSuccess(const QString &Message);
     void creategroupError(const QString &errorMessage);
     void getgrouplistSuccess(const QStringList & blocks);
     void getgrouplistError(const QString &errorMessage);
-    void joingroupSuccess();
+    void joingroupSuccess(const QString &Message);
     void joingroupError(const QString &errorMessage);
     void sendmessagegroupSuccess();
     void sendmessagegroupError(const QString &errorMessage);
-    void getgroupchatsSuccess();
+    void getgroupchatsSuccess(const QStringList & blocks);
     void getgroupchatsError(const QString &errorMessage);
 
 

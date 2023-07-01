@@ -20,7 +20,7 @@ loginDialog::loginDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     chatClient = new ChatClient(this);
- connect(chatClient, &ChatClient::AlreadyLogIn, this, &loginDialog::handleAlreadyLogIn);
+    connect(chatClient, &ChatClient::AlreadyLogIn, this, &loginDialog::handleAlreadyLogIn);
     connect(chatClient, &ChatClient::logInSuccess, this, &loginDialog::handleLogInSuccess);
     connect(chatClient, &ChatClient::logInError, this, &loginDialog::handleLogInError);
     ui->passwordeye->setIcon(QIcon(":/img/img/icons8-closed-eye-24.png"));
@@ -83,7 +83,7 @@ QString readFromFile(QString fileName,QString username)
         if (!tokens.at(1).isEmpty() && tokens.at(0) == username) {
             file.close();
             result=tokens.at(1);
-             // Return the token
+            // Return the token
         }
     }
     if(!result.isNull())
@@ -99,24 +99,24 @@ void loginDialog::handleAlreadyLogIn()
     QString username=ui->lineEditusername2->text();
 
     QString tok=readFromFile("usertoken2.txt",username);   qDebug()<<"doneeeee!"<<tok;
-         tokenuser person(username,tok);
-               logintohomepage(person);
+    tokenuser person(username,tok);
+    logintohomepage(person);
 
 
 
 }
 void loginDialog::logintohomepage(tokenuser person){
-             homepage *HmPage = new homepage();
-            //   HmPage(person.getUsername());
-             //  homepage HHH(person.getUsername());
-             //  emit HmPage->sig_HmPage(person);
-            //emit sig_logintohomepage(person);
-  // connect(HmPage,SIGNAL(sig_HmPage(person)),this,SLOT(slot_Homepage(person)));
+    homepage *HmPage = new homepage();
+    //   HmPage(person.getUsername());
+    //  homepage HHH(person.getUsername());
+    //  emit HmPage->sig_HmPage(person);
+    //emit sig_logintohomepage(person);
+    // connect(HmPage,SIGNAL(sig_HmPage(person)),this,SLOT(slot_Homepage(person)));
 
-     HmPage->setPerson(person);
+    HmPage->setPerson(person);
 
 
-             HmPage->show();
+    HmPage->show();
 }
 void loginDialog::slot_Homepage(tokenuser person){
 
@@ -125,10 +125,10 @@ void loginDialog::handleLogInSuccess(QString token)
 {
     // Handle log-in success
     QMessageBox::information(this, "Log In", "Log In Successful");
-             QString username=ui->lineEditusername2->text();
+    QString username=ui->lineEditusername2->text();
     writeToFile("usertoken2.txt",username,token);
     tokenuser person(username,token);
-           logintohomepage(person);
+    logintohomepage(person);
 
 }
 

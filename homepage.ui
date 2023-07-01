@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Home Page</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
@@ -93,7 +93,7 @@ border-radius:5px;
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -147,33 +147,33 @@ border-radius:5px;
           <x>0</x>
           <y>0</y>
           <width>231</width>
-          <height>31</height>
+          <height>41</height>
          </rect>
         </property>
+        <widget class="QPushButton" name="pushButton_joingroup_on_homepage">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>0</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>join group</string>
+         </property>
+        </widget>
         <widget class="QPushButton" name="pushButton_creategroup_on_homepage">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>0</y>
            <width>111</width>
-           <height>31</height>
+           <height>41</height>
           </rect>
          </property>
          <property name="text">
-          <string>creategroup</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButtonadd_joingroup_on_homepage">
-         <property name="geometry">
-          <rect>
-           <x>110</x>
-           <y>0</y>
-           <width>121</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>joingroup</string>
+          <string>create group</string>
          </property>
         </widget>
        </widget>
@@ -181,9 +181,9 @@ border-radius:5px;
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>28</y>
+          <y>40</y>
           <width>231</width>
-          <height>591</height>
+          <height>631</height>
          </rect>
         </property>
        </widget>
@@ -192,42 +192,6 @@ border-radius:5px;
        <attribute name="title">
         <string>Channel</string>
        </attribute>
-       <widget class="QWidget" name="widget_5" native="true">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>231</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <widget class="QPushButton" name="pushButtonaddchannel">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>111</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>createchannel</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="geometry">
-          <rect>
-           <x>112</x>
-           <y>0</y>
-           <width>121</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>joinchannel</string>
-         </property>
-        </widget>
-       </widget>
        <widget class="QListWidget" name="channelListWidget">
         <property name="geometry">
          <rect>
@@ -238,11 +202,37 @@ border-radius:5px;
          </rect>
         </property>
        </widget>
+       <widget class="QPushButton" name="pushButton_createchannel_on_homepage">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>121</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>create channel</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_joinchannel_on_homepage">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>0</y>
+          <width>111</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>join channel</string>
+        </property>
+       </widget>
        <widget class="QPushButton" name="pushButton_3">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>30</y>
+          <y>40</y>
           <width>191</width>
           <height>31</height>
          </rect>
@@ -254,8 +244,8 @@ border-radius:5px;
        <widget class="QPushButton" name="pushButton_4">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>59</y>
+          <x>20</x>
+          <y>70</y>
           <width>191</width>
           <height>41</height>
          </rect>
@@ -353,7 +343,7 @@ border-color: rgb(134, 134, 134);</string>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background_color:rgb(64, 64, 64);
+       <string notr="true">
 border-width:0px;</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">

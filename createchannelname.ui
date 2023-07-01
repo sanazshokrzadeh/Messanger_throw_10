@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>creategroupname</class>
- <widget class="QDialog" name="creategroupname">
+ <class>createchannelname</class>
+ <widget class="QDialog" name="createchannelname">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>205</width>
-    <height>195</height>
+    <width>211</width>
+    <height>181</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Create Group</string>
+   <string>Create Channel</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>10</y>
      <width>171</width>
      <height>151</height>
     </rect>
    </property>
    <property name="title">
-    <string>Enter group name</string>
+    <string>Enter channel name</string>
    </property>
-   <widget class="QLineEdit" name="lineEdit_groupname_on_creategroupname">
+   <widget class="QLineEdit" name="lineEdit_channelname_on_createchannelname">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -35,7 +35,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_creategroup_on_creategroupname">
+   <widget class="QPushButton" name="pushButton_createchannel_on_createchannelname">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>create group</string>
+     <string>create channel</string>
     </property>
    </widget>
   </widget>

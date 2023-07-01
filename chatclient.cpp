@@ -1,5 +1,6 @@
 #include "chatclient.h"
 #include "qdir.h"
+#include<QMessageBox>
 
 ChatClient::ChatClient(QObject *parent) : QObject(parent)
 {
@@ -296,6 +297,32 @@ void createFilesForchannels(const QStringList& blocks)
         }
     }
 }
+
+
+void ChatClient::writeToFile(const QStringList& contactList, const QString& fileName)
+{
+    // Open the file for writing
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        // Failed to open the file
+        return;
+    }
+
+    QTextStream out(&file);
+    for (const QString& contact : contactList)
+    {
+        // Write each contact to a new line in the file
+        out << contact << '\n';
+    }
+
+    // Close the file
+    file.close();
+}
+
+
+
+
 void ChatClient::handleNetworkReply(QNetworkReply *reply)
 {
     QString requestType = reply->property("requestType").toString();
@@ -381,6 +408,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
 
                 }
                 createFilesForBlocks(block);
+                writeToFile(block,"user_contacts.txt");
                 emit getuserlistSuccess(block);
             }
             else {
@@ -430,7 +458,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
 
     else if (requestType == "creategroup") {
         if (code == "200") {
-            emit creategroupSuccess();
+            emit creategroupSuccess("Message: " + message);
             // creategroup successful, do something
         }
         else {
@@ -458,8 +486,9 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
                 qDebug() <<"group_name:" << group_name;
                 // Do something with the group_name value
             }
+            writeToFile(blocks,"grouplistoff.txt");
             createFilesForgroups(blocks);
-              emit getgrouplistSuccess(blocks);
+            emit getgrouplistSuccess(blocks);
         }
         else {
             emit getgrouplistError("Error: " + message);
@@ -467,7 +496,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
     }
     else if (requestType == "joingroup") {
         if (code == "200") {
-            emit joingroupSuccess();
+            emit joingroupSuccess("Message: " + message);
             // joingroup successful, do something
         }
         else {
@@ -485,7 +514,8 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
     }
     else if (requestType == "getgroupchats") {
         if (code == "200") {
-            emit getgroupchatsSuccess();
+
+            //QMessageBox::warning(nullptr, "getchat", "success.");
             // getgroupchats successful, do something
 
             QJsonObject blocksObj = jsonObj;
@@ -495,22 +525,24 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             QStringList keys = blocksObj.keys();
             int numBlocks = keys.size();
             //qDebug() << "Number of blocks:" << numBlocks;
-
+            QStringList message;
             for (int i = 0; i < numBlocks; ++i) {
                 QString blockKey = "block " + QString::number(i);
                 QJsonObject blockObj = blocksObj.value(blockKey).toObject();
+
                 QString body = blockObj["body"].toString();
                 QString src = blockObj["src"].toString();
                 QString dst = blockObj["dst"].toString();
                 QString date = blockObj["date"].toString();
-                qDebug() << "block" << i;
+                qDebug() << "Groupblock" << i;
                 qDebug() << "body:" << body;
                 qDebug() << "src:" << src;
                 qDebug() << "dst:" << dst;
                 qDebug() << "date:" << date;
                 // Do something with the block contents
+                message<<body<<dst<<src<<date;
 
-            }
+            }emit getgroupchatsSuccess(message);
         }
         else {
             emit getgroupchatsError("Error: " + message);
@@ -522,7 +554,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
 
     else if (requestType == "createchannel") {
         if (code == "200") {
-            emit createchannelSuccess();
+            emit createchannelSuccess("Message: " + message);
             // createchannel successful, do something
         }
         else {
@@ -550,8 +582,9 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
                 blocks<<channel_name;
                 // Do something with the channel_name value
             }
+            writeToFile(blocks,"channellistoff.txt");
             createFilesForchannels(blocks);
-              emit getchannellistSuccess(blocks);
+            emit getchannellistSuccess(blocks);
         }
         else {
             emit getchannellistError("Error: " + message);
@@ -559,7 +592,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
     }
     else if (requestType == "joinchannel") {
         if (code == "200") {
-            emit joinchannelSuccess();
+            emit joinchannelSuccess("Message: " + message);
             // joinchannel successful, do something
         }
         else {
@@ -571,13 +604,18 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             emit sendmessagechannelSuccess();
             // sendmessagechannel successful, do something
         }
-        else {
-            emit sendmessagechannelError("Error: " + message);
+        //else {
+            //if(message=="You are not Admin of This Channel"){
+                //QMessageBox::warning(nullptr, "Error", message);
+            //}
+            else
+                emit sendmessagechannelError("Error: " + message);
+
         }
-    }
+
     else if (requestType == "getchannelchats") {
         if (code == "200") {
-            emit getchannelchatsSuccess();
+
             // getchannelchats successful, do something
 
             QJsonObject blocksObj = jsonObj;
@@ -587,7 +625,7 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
             QStringList keys = blocksObj.keys();
             int numBlocks = keys.size();
             //qDebug() << "Number of blocks:" << numBlocks;
-
+            QStringList message;
             for (int i = 0; i < numBlocks; ++i) {
                 QString blockKey = "block " + QString::number(i);
                 QJsonObject blockObj = blocksObj.value(blockKey).toObject();
@@ -600,8 +638,9 @@ void ChatClient::handleNetworkReply(QNetworkReply *reply)
                 qDebug() << "src:" << src;
                 qDebug() << "dst:" << dst;
                 qDebug() << "date:" << date;
+                 message<<body<<dst<<src<<date;
                 // Do something with the block contents
-            }
+            } emit getchannelchatsSuccess(message);
         }
         else {
             emit getchannelchatsError("Error: " + message);

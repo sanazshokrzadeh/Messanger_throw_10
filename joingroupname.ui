@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>creategroupname</class>
- <widget class="QDialog" name="creategroupname">
+ <class>joingroupname</class>
+ <widget class="QDialog" name="joingroupname">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>205</width>
-    <height>195</height>
+    <width>211</width>
+    <height>179</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Create Group</string>
+   <string>Join Group</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>10</y>
      <width>171</width>
      <height>151</height>
     </rect>
@@ -25,7 +25,7 @@
    <property name="title">
     <string>Enter group name</string>
    </property>
-   <widget class="QLineEdit" name="lineEdit_groupname_on_creategroupname">
+   <widget class="QLineEdit" name="lineEdit_groupname_on_joingroupname">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -35,17 +35,39 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_creategroup_on_creategroupname">
+   <widget class="QPushButton" name="pushButton_joingroup_on_joingroupname">
     <property name="geometry">
      <rect>
       <x>30</x>
       <y>90</y>
       <width>111</width>
-      <height>29</height>
+      <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Exo 2</family>
+      <pointsize>9</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+		background-color:rgb(193, 225, 193);
+	color: rgb(106, 106, 106);
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 5px;
+	padding: 10px;
+	font: 700 9pt &quot;Exo 2&quot;;
+}
+</string>
+    </property>
     <property name="text">
-     <string>create group</string>
+     <string>join group</string>
     </property>
    </widget>
   </widget>

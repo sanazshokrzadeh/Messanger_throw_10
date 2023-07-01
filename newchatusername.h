@@ -2,7 +2,8 @@
 #define NEWCHATUSERNAME_H
 
 #include <QDialog>
-
+#include <QMessageBox>
+#include "chatclient.h"
 namespace Ui {
 class newchatusername;
 }
@@ -18,8 +19,11 @@ public:
 private slots:
     void on_pushButton_add_on_newchatusername_clicked();
 
+//    void handleaddnewusersuccess();
+//    void handleaddnewusererror(const QString &errormessage);
 private:
     Ui::newchatusername *ui;
+    ChatClient *chatClient;
 
 signals:
     void sendchatusernametohomepage(QString chatusername);

@@ -6,30 +6,43 @@
 #include<QTimer>
 #include<QMessageBox>
 #include"creategroupname.h"
+#include"joingroupname.h"
+#include"joinchannelname.h"
+#include"createchannelname.h"
 
 tokenuser receivedUser=tokenuser("","");
 QStringList contatctuser,grouplist,channelList;
 homepage::homepage(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::homepage)
-{    ui->setupUi(this);
+{
+     ui->setupUi(this);
      setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint);
 
      chatClient = new ChatClient(this);
      adduser =new newchatusername();
      logout = new confirmlogout();
-     groupname = nullptr;
+     Creategroupname = nullptr;
+     Joingroupname = nullptr;
+     Createchannelname = nullptr;
+     Joinchannelname = nullptr;
      connect(adduser, &newchatusername::sendchatusernametohomepage, this, &homepage::handlechatusernamesignal);
      connect(logout, &confirmlogout::hidehomepageaftersuccessfullogout, this, &homepage::handlehidehomepageaftersuccessfullogout);
      connect(chatClient, &ChatClient::getuserlistSuccess, this, &homepage::handlegetuserlistrSuccess);
      connect(chatClient, &ChatClient::getgrouplistSuccess, this, &homepage::handlegetgrouplistSuccess);
      connect(chatClient, &ChatClient::getchannellistSuccess, this, &homepage::handlegetchannellistSuccess);
      connect(chatClient, &ChatClient::getuserchatsSuccess, this, &::homepage::handlegetuserchatsSuccess);
+     connect(chatClient, &ChatClient::getgroupchatsSuccess, this, &::homepage::handlegetgroupchatsSuccess);
+     connect(chatClient, &ChatClient::getchannelchatsSuccess, this, &::homepage::handlegetchannelchatsSuccess);
      // Set up the QTimer to refresh the contacts every second
 
      QTimer* refreshTimer = new QTimer(this);
      connect(refreshTimer, &QTimer::timeout, this, &homepage::refreshContacts);
+     connect(refreshTimer, &QTimer::timeout, this, &homepage::handlewhileoffline);
+     connect(refreshTimer, &QTimer::timeout, this, &::homepage::handlegroupwhileoffline);
+     connect(refreshTimer, &QTimer::timeout, this, &homepage::handlechannelwhileoffline);
      connect(refreshTimer, &QTimer::timeout, this, &homepage::refreshChatroom);
+     connect(refreshTimer, &QTimer::timeout, this, &homepage::readInformationFromFile);
      refreshTimer->start(500); // Refresh every 1 second
 
 
@@ -39,8 +52,12 @@ homepage::homepage(QWidget *parent) :
      ui->moreButton->setIcon(QIcon(":/send/icons8-more-80.png"));
      ui->settingsButton->setIcon(QIcon(":/send/icons8-menu-80.png"));
      ui->sendButton->setIcon(QIcon(":/send/send/icons8-send-80.png"));
-     //ui->label
+
      ui->partlabel->hide();
+
+     connect(chatClient,&ChatClient::sendmessageuserError,this,&homepage::handlesendmessageerror);
+     connect(chatClient,&ChatClient::sendmessagegroupError,this,&homepage::handlesendmessageerror);
+     connect(chatClient,&ChatClient::sendmessagechannelError,this,&homepage::handlesendmessageerror);
 
      //login=new loginDialog(this);
      //connect(login, &loginDialog::sig_logintohomepage, this, &homepage::handletoken);
@@ -72,7 +89,6 @@ homepage::~homepage()
 
 void homepage::on_moreButton_clicked()
 {
-
     logout->show();
 }
 
@@ -100,13 +116,91 @@ void homepage::on_settingsButton_clicked()
 void homepage::handlegetuserlistrSuccess(const QStringList &blocks)
 {contatctuser=blocks;}
 
+void homepage::handlewhileoffline(){
+      QStringList contactList;
+ // Open the user contact file
+    QFile file("user_contacts.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "Failed to read from file:" <<"user_contacts.txt";}
+
+    QTextStream in(&file);
+    while (!in.atEnd())
+    {
+        // Read each line from the file and add it to the contact list
+        QString line = in.readLine();
+        contactList.append(line);
+    }
+
+    // Close the file
+    file.close();
+    contatctuser=contactList;
+
+
+}
+
+void homepage::handlegroupwhileoffline(){
+    QStringList grList;
+    // Open the user contact file
+    QFile file("grouplistoff.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "Failed to read from file:" <<"user_contacts.txt";}
+
+    QTextStream in(&file);
+    while (!in.atEnd())
+    {
+        // Read each line from the file and add it to the contact list
+        QString line = in.readLine();
+        grList.append(line);
+    }
+
+    // Close the file
+    file.close();
+    grouplist=grList;
+
+
+}
+void homepage::handlechannelwhileoffline(){
+    QStringList chList;
+    // Open the user contact file
+    QFile file("channellistoff.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "Failed to read from file:" <<"user_contacts.txt";}
+
+    QTextStream in(&file);
+    while (!in.atEnd())
+    {
+        // Read each line from the file and add it to the contact list
+        QString line = in.readLine();
+        chList.append(line);
+    }
+
+    // Close the file
+    file.close();
+    channelList=chList;
+
+
+}
+
+
 void homepage::refreshChatroom()
 {
-    ui->chatroom->clear();
+
     QString token = receivedUser.getToken();
     if(!ui->profile_lable->text().isNull()&&ui->partlabel->text()=="user"){
+        //readInformationFromFile();
     chatClient->getuserchats(token, ui->profile_lable->text());
-        readInformationFromFile();}
+      }
+    if(!ui->profile_lable->text().isNull()&&ui->partlabel->text()=="group"){  //readInformationFromFile();
+        chatClient->getgroupchats(token, ui->profile_lable->text());
+      }
+
+    if(!ui->profile_lable->text().isNull()&&ui->partlabel->text()=="channel"){  //readInformationFromFile();
+        chatClient->getchannelchats(token, ui->profile_lable->text());
+    }
+
 }
 
 
@@ -157,61 +251,174 @@ void homepage::handlegetuserchatsSuccess(const QStringList &blocks)
         }
     }
 }
-void homepage::readInformationFromFile()
-{
-    QString folderName = "user";
+void homepage::handlegetgroupchatsSuccess(const QStringList &blocks)
+{   QString folderName = "group";
     QDir folder;
     if (!folder.exists(folderName))
         folder.mkdir(folderName);
-    QString blockSource = ui->profile_lable->text();
-    QString fileName = blockSource + ".txt";
-    QString filePath = folder.absoluteFilePath(fileName);
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Failed to open file for reading";
-        return;
-    }
 
-    QTextStream stream(&file);
-    QStringList information;
-    QString line;
+    // Create the file inside the folder
 
-    // Read the file line by line
-    while (stream.readLineInto(&line)) {
+    for (int i = 0; i < grouplist.size(); ++i) {
 
-        QString body = line;
-        qDebug()<<line;
-        QString time = stream.readLine();
-        QTextCursor cursor = ui->chatroom->textCursor();
-        QTextCharFormat defaultFormat = cursor.charFormat();
+        QString blockSource = grouplist.at(i);
 
-        // Set the font properties for the time
-        QTextCharFormat timeFormat = defaultFormat;
-        timeFormat.setFontFamily("Roboto");
-        timeFormat.setFontPointSize(8);
-        timeFormat.setFontWeight(QFont::Normal);
-        QColor timeColor("#c1e1c1");
-        timeFormat.setForeground(timeColor);
-        // Append the body text
-        cursor.insertText(body + '\n', defaultFormat);
+        // Create a file name based on the block source
+        QString fileName = blockSource + ".txt";
+        QString filePath = folder.absoluteFilePath(fileName);
+        // Open the file for writing
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
 
-        // Append the time with the desired fontType
-        cursor.insertText(time + '\n', timeFormat);
+            for (int i = 0; i < blocks.size(); i+=4) {
 
-        // Append the separator
-        cursor.insertText("_______________________________________\n", defaultFormat);
+                QString body = blocks.at(i);
+                QString dst =blocks.at(i + 1);
+                QString src = blocks.at(i + 2);
+                QString time = blocks.at(i + 3);
+                if(src==blockSource||dst==blockSource){
+               out<<src<< ":" << body << "\n";
+               out << time << "\n";
 
-        // Scroll to the bottom
-       ui->chatroom->ensureCursorVisible();
-      //  ui->chatroom->append(body+'\n'+formattedTime+"\n_______________________________________\n");
-        // Create a QTextCursor to manipulate the text in the QTextBrowser
+               // out << "\n";
+                }
+            }
 
-
-
+            // Close the file
+            file.close();
+        } else {
+            qDebug() << "Failed to create file:" << fileName;
         }
-    file.close();
+    }
+}
+void homepage::handlegetchannelchatsSuccess(const QStringList &blocks)
+{   QString folderName = "channel";
+    QDir folder;
+    if (!folder.exists(folderName))
+        folder.mkdir(folderName);
 
-   // qDebug() << "Information read from file:\n" << content;
+    // Create the file inside the folder
+
+    for (int i = 0; i < channelList.size(); ++i) {
+
+        QString blockSource = channelList.at(i);
+
+        // Create a file name based on the block source
+        QString fileName = blockSource + ".txt";
+        QString filePath = folder.absoluteFilePath(fileName);
+        // Open the file for writing
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+
+            for (int i = 0; i < blocks.size(); i+=4) {
+
+                QString body = blocks.at(i);
+                QString dst =blocks.at(i + 1);
+                QString src = blocks.at(i + 2);
+                QString time = blocks.at(i + 3);
+                if(src==blockSource||dst==blockSource){
+                    out<<src<< ":" << body << "\n";
+                    out << time << "\n";
+
+                    // out << "\n";
+                }
+            }
+
+            // Close the file
+            file.close();
+        } else {
+            qDebug() << "Failed to create file:" << fileName;
+        }
+    }
+}
+
+
+void homepage::readInformationFromFile()
+{if( ui->partlabel->text()=="user"|| ui->partlabel->text()=="channel"|| ui->partlabel->text()=="group"){
+        QString folderName = ui->partlabel->text();
+        QDir folder;
+        if (!folder.exists(folderName))
+            folder.mkdir(folderName);
+        QString blockSource = ui->profile_lable->text();
+        QString fileName = blockSource + ".txt";
+        QString filePath = folder.absoluteFilePath(fileName);
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qDebug() << "Failed to open file for reading"<<fileName;
+            return;
+        }
+        QString exist=ui->chatroom->toPlainText();
+        QTextStream stream(&file);
+        QStringList information;
+        QString line;
+        QString existingChatroomContent;
+        QTextDocument document;
+
+        // Read the file line by line
+        bool isBodyLine = true;
+        QString bodyText;
+        while (!stream.atEnd()) {
+            line = stream.readLine();
+
+            if (isBodyLine) {
+                bodyText = line;
+                qDebug() << line;
+                isBodyLine = false;
+            } else {
+                QString time = line;
+
+                // Set the font properties for the body text
+                //                QTextCharFormat bodyFormat;
+                //                QFont futuraFont("Futura", 20);
+                //                bodyFormat.setFont(futuraFont);
+
+                // Append the body text with the desired font
+                //                QTextCursor cursor(&document);
+                //                cursor.setCharFormat(bodyFormat);
+                existingChatroomContent+=bodyText + '\n';
+
+
+                //                timeFormat.setFontFamily("Roboto");
+                //                timeFormat.setFontPointSize(8);
+                //                timeFormat.setFontWeight(QFont::Normal);
+                //                QColor timeColor("#c1e1c1");
+                //                timeFormat.setForeground(timeColor);
+
+                // Append the time with the desired font and color
+                existingChatroomContent+= time + '\n';
+
+                // Append the separator
+                // QTextCharFormat separatorFormat;
+
+                //cursor.setCharFormat(bodyFormat);
+                existingChatroomContent+="_______________________________________\n";
+
+                isBodyLine = true;
+            }
+        }
+
+        // qDebug() <<"ex::::"<< existingChatroomContent;
+
+        // Compare the lengths of existingChatroomContent and exist
+        if (existingChatroomContent.length() > exist.length()) {
+            // Find the additions in existingChatroomContent
+            QString additions = existingChatroomContent.mid(exist.length()).trimmed();
+            // qDebug() <<"addintion::::"<< additions;
+            // QString additions = existingChatroomContent-exist;
+            // Append the additions to the chatroom
+            ui->chatroom->append(additions);
+        }
+
+        // Append the formatted content to the string
+        // existingChatroomContent = document.toHtml();
+        qDebug() << existingChatroomContent;
+
+        // Display the formatted content in a QTextBrowser widget
+        // ui->chatroom->setHtml(existingChatroomContent);
+        file.close();}
+
 }
 
 
@@ -233,7 +440,8 @@ void homepage::handlegetchannellistSuccess(const QStringList &blocks)
  {
     QString contact = item->text();
     ui->profile_lable->setText(contact);
- ui->partlabel->setText("channel");
+    ui->chatroom->clear();
+    ui->partlabel->setText("channel");
 
     // Handle the click event for the selected contact
     // You can implement your own logic here, such as opening a chat window, showing contact details, etc.
@@ -242,7 +450,8 @@ void homepage::handlegetchannellistSuccess(const QStringList &blocks)
  {
     QString contact = item->text();
     ui->profile_lable->setText(contact);
- ui->partlabel->setText("group");
+    ui->chatroom->clear();
+    ui->partlabel->setText("group");
     // Handle the click event for the selected contact
     // You can implement your own logic here, such as opening a chat window, showing contact details, etc.
  }
@@ -297,8 +506,9 @@ void homepage::handlehidehomepageaftersuccessfullogout(){
 }
 
 void homepage::handlechatusernamesignal(QString chatusername){
+
     QString token = receivedUser.getToken();
-    chatClient->sendmessegeuser(token,chatusername,"hi");
+    chatClient->sendmessegeuser(token,chatusername,"Hello");
 
 
 }
@@ -334,18 +544,63 @@ void homepage::on_sendButton_clicked()
 
     }
     else if(part == "channel"){
+        chatClient->sendmessegechannel(token,ui->profile_lable->text(),ui->messagebar->toPlainText());
+        ui->messagebar->clear();
 
     }}
 
 }
 
+void homepage::handlesendmessageerror(const QString &errormessage)
+{
+    QMessageBox::critical(this,"Send Message",errormessage);
+
+}
+
+
+
+
 void homepage::on_pushButton_creategroup_on_homepage_clicked()
 {
-    if (!groupname) {
-            groupname = new creategroupname(this); // Create an instance of the new window
-            groupname->setAttribute(Qt::WA_DeleteOnClose); // Delete the window when closed
+    if (!Creategroupname) {
+            Creategroupname = new creategroupname(this); // Create an instance of the new window
+            Creategroupname->setAttribute(Qt::WA_DeleteOnClose); // Delete the window when closed
         }
 
-        groupname->show();
+        Creategroupname->show();
 }
+
+
+void homepage::on_pushButton_joingroup_on_homepage_clicked()
+{
+    if (!Joingroupname) {
+            Joingroupname = new joingroupname(this); // Create an instance of the new window
+            Joingroupname->setAttribute(Qt::WA_DeleteOnClose); // Delete the window when closed
+        }
+
+        Joingroupname->show();
+}
+
+
+void homepage::on_pushButton_createchannel_on_homepage_clicked()
+{
+    if (!Createchannelname) {
+            Createchannelname = new createchannelname(this); // Create an instance of the new window
+            Createchannelname->setAttribute(Qt::WA_DeleteOnClose); // Delete the window when closed
+        }
+
+        Createchannelname->show();
+}
+
+
+void homepage::on_pushButton_joinchannel_on_homepage_clicked()
+{
+    if (!Joinchannelname) {
+            Joinchannelname = new joinchannelname(this); // Create an instance of the new window
+            Joinchannelname->setAttribute(Qt::WA_DeleteOnClose); // Delete the window when closed
+        }
+
+        Joinchannelname->show();
+}
+
 

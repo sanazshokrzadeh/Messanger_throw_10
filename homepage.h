@@ -11,6 +11,10 @@
 #include<QMenu>
 extern tokenuser receivedUser;
 class creategroupname;
+class joingroupname;
+class createchannelname;
+class joinchannelname;
+
 
 namespace Ui {
 class homepage;
@@ -30,20 +34,11 @@ private slots:
 
     void on_settingsButton_clicked();
 
-    //void handletoken( QString token);
-
     void on_pushButtonadd_2_clicked();
 
     void handlehidehomepageaftersuccessfullogout();
 
     void handlechatusernamesignal(QString chatusername);
-
-
-
-
-
-
-
 
 
     void handlegetuserlistrSuccess(const QStringList &blocks);
@@ -58,21 +53,38 @@ private slots:
     void on_sendButton_clicked();
     void refreshChatroom();
 
-    void on_pushButton_creategroup_on_homepage_clicked();
-
 
     void readInformationFromFile();
+
+
+    void on_pushButton_creategroup_on_homepage_clicked();
+    void on_pushButton_joingroup_on_homepage_clicked();
+    void on_pushButton_createchannel_on_homepage_clicked();
+    void on_pushButton_joinchannel_on_homepage_clicked();
+    void handlewhileoffline();
+
+    void handlegroupwhileoffline();
+   void handlechannelwhileoffline();
+
+   void handlegetgroupchatsSuccess(const QStringList &blocks);
+   void handlegetchannelchatsSuccess(const QStringList &blocks);
+
+
+   void handlesendmessageerror(const QString &errormessage);
 private:
     Ui::homepage *ui;
     confirmlogout *logout;
     ChatClient *chatClient;
     newchatusername *adduser;
-    creategroupname *groupname;
+    creategroupname *Creategroupname;
+    joingroupname *Joingroupname;
+    createchannelname *Createchannelname;
+    joinchannelname *Joinchannelname;
 
 
 signals:
     void sig_HmPage(tokenuser person);
-    void sendtokentocreategroupname(const QString &token);
+
 };
 
 #endif // HOMEPAGE_H

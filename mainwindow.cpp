@@ -49,16 +49,16 @@ void save()
 
 
     QFile file("person1.txt");
-//
+    //
     file.open(QIODevice :: WriteOnly);
 
     QDataStream  out(&file);
 
     out.setVersion(QDataStream ::Qt_4_7);
-//    for(auto& i:vecinfo){
-//        out << i;
-//    }
-   // out<<"\nDOnefile!";
+    //    for(auto& i:vecinfo){
+    //        out << i;
+    //    }
+    // out<<"\nDOnefile!";
     file.flush();
     file.close();
 
@@ -82,16 +82,16 @@ void load()
 
     while(!in.atEnd()){
         in>> i;
-//        if(search(i)){
-//            vecinfo.push_back(i);
-//        }
+        //        if(search(i)){
+        //            vecinfo.push_back(i);
+        //        }
     }
 
 
     file.close();
-   //info p1=vecinfo[0];
-   // qDebug() << p1.name<<":"<< p1.last;
- //qDebug() << p2.name<<":"<< p2.age;
+    //info p1=vecinfo[0];
+    // qDebug() << p1.name<<":"<< p1.last;
+    //qDebug() << p2.name<<":"<< p2.age;
 
 
 
@@ -105,9 +105,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_Login_on_mainwindow_clicked()
 { //read(p);
     // load();
-        log = new loginDialog();
-        connect(log,SIGNAL(sig_login(info)),this,SLOT(slot_login(info)));
-        log->show();
+    log = new loginDialog();
+    connect(log,SIGNAL(sig_login(info)),this,SLOT(slot_login(info)));
+    log->show();
 
 
 
@@ -126,25 +126,25 @@ void MainWindow::on_pushButton_Login_on_mainwindow_clicked()
 //        }} return false;
 //}
 void MainWindow::slot_signup(info infor){ //load();
-  //  qint32 num=searchuser(infor);
-//        if(idsearch(infor.username)){
-//        QMessageBox::warning(nullptr, "Error", "This username has been taken\n Try more");
-//        return;
-//        }
-//    if(num==-1){
-//        vecinfo.push_back(infor);
-//       // chatClient->signUp(infor.username,infor.password,infor.name,infor.phonenum);
-//       // save();
-//    }
-//    else{
-//        if(!(vecinfo[num]==infor)){
-//            QMessageBox::warning(nullptr, "Error", "This user has been added\n Please enter an other user!");}
+    //  qint32 num=searchuser(infor);
+    //        if(idsearch(infor.username)){
+    //        QMessageBox::warning(nullptr, "Error", "This username has been taken\n Try more");
+    //        return;
+    //        }
+    //    if(num==-1){
+    //        vecinfo.push_back(infor);
+    //       // chatClient->signUp(infor.username,infor.password,infor.name,infor.phonenum);
+    //       // save();
+    //    }
+    //    else{
+    //        if(!(vecinfo[num]==infor)){
+    //            QMessageBox::warning(nullptr, "Error", "This user has been added\n Please enter an other user!");}
 
 
-//        else if(vecinfo[num].username==infor.username){
-//            QMessageBox::warning(nullptr, "Error", "This username has been taken\n Try more");}
+    //        else if(vecinfo[num].username==infor.username){
+    //            QMessageBox::warning(nullptr, "Error", "This username has been taken\n Try more");}
 
-//    }
+    //    }
 
 }
 
