@@ -6,20 +6,43 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>211</width>
-    <height>179</height>
+    <width>236</width>
+    <height>246</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Join Group</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>10</y>
-     <width>171</width>
-     <height>151</height>
+     <width>211</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget
+{
+	color: rgb(64, 64, 64);
+  	font: 900 14pt &quot;Exo 2&quot;;
+}</string>
+   </property>
+   <property name="text">
+    <string>Join Group</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>211</width>
+     <height>71</height>
     </rect>
    </property>
    <property name="title">
@@ -29,31 +52,44 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
-      <width>151</width>
-      <height>31</height>
+      <y>30</y>
+      <width>181</width>
+      <height>30</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_joingroup_on_joingroupname">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>90</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Exo 2</family>
-      <pointsize>9</pointsize>
-      <italic>false</italic>
-      <bold>true</bold>
-     </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton
+     <string notr="true">padding-left:3px;</string>
+    </property>
+    <property name="frame">
+     <bool>false</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Enter group name to join</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_joingroup_on_joingroupname">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>160</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Exo 2</family>
+     <pointsize>9</pointsize>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="whatsThis">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;push to join&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
 {
 		background-color:rgb(193, 225, 193);
 	color: rgb(106, 106, 106);
@@ -65,11 +101,10 @@
 	font: 700 9pt &quot;Exo 2&quot;;
 }
 </string>
-    </property>
-    <property name="text">
-     <string>join group</string>
-    </property>
-   </widget>
+   </property>
+   <property name="text">
+    <string>join group</string>
+   </property>
   </widget>
  </widget>
  <resources/>

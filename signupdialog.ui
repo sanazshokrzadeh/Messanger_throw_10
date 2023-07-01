@@ -279,8 +279,8 @@ padding-left:3px;
   <widget class="QGroupBox" name="groupBox_14">
    <property name="geometry">
     <rect>
-     <x>269</x>
-     <y>160</y>
+     <x>270</x>
+     <y>150</y>
      <width>241</width>
      <height>61</height>
     </rect>
@@ -420,6 +420,9 @@ padding-left:3px;
    </property>
    <property name="statusTip">
     <string>Your password strength</string>
+   </property>
+   <property name="whatsThis">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Your password strength&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
     <string notr="true">

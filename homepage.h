@@ -28,19 +28,13 @@ public:
     explicit homepage(QWidget *parent = nullptr);
     homepage(QString username);
     ~homepage();
-void setPerson( tokenuser person);
+    void setPerson( tokenuser person);
+
 private slots:
     void on_moreButton_clicked();
-
-    void on_settingsButton_clicked();
-
     void on_pushButtonadd_2_clicked();
-
     void handlehidehomepageaftersuccessfullogout();
-
     void handlechatusernamesignal(QString chatusername);
-
-
     void handlegetuserlistrSuccess(const QStringList &blocks);
     void handlegetgrouplistSuccess(const QStringList &blocks);
     void handlegetuserchatsSuccess(const QStringList &blocks);
@@ -52,25 +46,18 @@ private slots:
     void handlegetchannellistSuccess(const QStringList &blocks);
     void on_sendButton_clicked();
     void refreshChatroom();
-
-
     void readInformationFromFile();
-
-
     void on_pushButton_creategroup_on_homepage_clicked();
     void on_pushButton_joingroup_on_homepage_clicked();
     void on_pushButton_createchannel_on_homepage_clicked();
     void on_pushButton_joinchannel_on_homepage_clicked();
     void handlewhileoffline();
-
     void handlegroupwhileoffline();
    void handlechannelwhileoffline();
-
    void handlegetgroupchatsSuccess(const QStringList &blocks);
    void handlegetchannelchatsSuccess(const QStringList &blocks);
-
-
    void handlesendmessageerror(const QString &errormessage);
+
 private:
     Ui::homepage *ui;
     confirmlogout *logout;

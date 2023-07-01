@@ -29,9 +29,10 @@ SignUpDialog::SignUpDialog(QWidget *parent) : QDialog(parent),
     connect(chatClient, &ChatClient::signUpSuccess, this, &SignUpDialog::handleSignUpSuccess);
     connect(chatClient, &ChatClient::signUpError, this, &SignUpDialog::handleSignUpError);
     ui->pushButton->setIcon(QIcon(":/img/img/icons8-closed-eye-24.png"));
-    ui->horizontalSlider->setStatusTip("Your password strength");
-    ui->pbconfirm->setIcon(QIcon(":/img/img/icons8-closed-eye-24.png"));ui->horizontalSlider->setRange(0, 4);
-    ui->horizontalSlider->setValue(0);// Range matches the possible score values
+  //  ui->horizontalSlider->setStatusTip("Your password strength");
+    ui->pbconfirm->setIcon(QIcon(":/img/img/icons8-closed-eye-24.png"));
+    //ui->horizontalSlider->setRange(0, 4);
+  //  ui->horizontalSlider->setValue(0);// Range matches the possible score values
     //ui->lineEditemail->setPattern("^(\\w+(\\.|-)?\\w+)+@[a-zA-Z0-9]+\\.[a-zA-Z]+$");
 }
 
@@ -116,21 +117,15 @@ void SignUpDialog::on_pushButtonsignup2_clicked()
 
     QString pass=ui->c_password_lineEdit->text();
     if(pass!=person.password){
-        ui->c_password_lineEdit->setStatusTip("Please Enter your password correctlly");
+         QMessageBox::warning(nullptr, "Password", "Please Enter your password correctlly");
+
     }
-    //setText("your password strength is "+strength);
 
-    if (strength=="Weak"){
-        //  ui->pushButtonsignup2->setEnabled(false);
-        //goto pass;
-        QMessageBox(QMessageBox::Information, "Your Password Strength is", strength);
 
-        // QTimer::singleShot(3000, &messageBox, &QMessageBox::close);
-        //strength
-        //on_bar_sliderMoved();
+    if (strength=="Weak")
+    {
+       QMessageBox::warning(nullptr, "Your Password Strength is", strength);
     }
-    // pushButtonsignup2setStyleSheet();
-
 
 
 
@@ -168,7 +163,6 @@ void SignUpDialog::handleSignUpError(const QString &errorMessage)
 void SignUpDialog::on_pushButton_clicked()
 {
     if(ui->lineEditpassword->echoMode()==QLineEdit::Password){
-        //  ui->p_visible_OF->setIcon(QIcon("../res/icon/visibility-off"));
         ui->pushButton->setIcon(QIcon(":/img/img/icons8-eye-50.png"));
         ui->lineEditpassword->setEchoMode(QLineEdit::Normal);}
 
@@ -180,18 +174,8 @@ void SignUpDialog::on_pushButton_clicked()
 
 void SignUpDialog::on_pbconfirm_clicked()
 {
-    /*   if (is_Cpassword_visible) {
-         ui->c_password_lineEdit->setEchoMode(QLineEdit::Password);
-         ui->pbconfirm->setIcon(QIcon(":/confirm/confirm/closed-eye-24.png"));
-         ui->c_password_lineEdit->setEchoMode(QLineEdit::Normal);
-    }
-    else {
-         ui->c_password_lineEdit->setEchoMode(QLineEdit::Normal);
-         ui->pbconfirm->setIcon(QIcon(":/confirm/confirm/eye-50.png"));
-     ui->lineEditpassword->setEchoMode(QLineEdit::Normal);
-    }*/
+
     if(ui->c_password_lineEdit->echoMode()==QLineEdit::Password){
-        //  ui->p_visible_OF->setIcon(QIcon("../res/icon/visibility-off"));
         ui->pbconfirm->setIcon(QIcon(":/confirm/confirm/eye-50.png"));
         ui->c_password_lineEdit->setEchoMode(QLineEdit::Normal);}
 

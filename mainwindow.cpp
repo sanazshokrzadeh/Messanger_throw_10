@@ -5,63 +5,67 @@
 #include<chatclient.h>
 #include<QMessageBox>
 #include<overload.h>
+
+#include <QPropertyAnimation>
+#include <QGraphicsOpacityEffect>
 //QVector<info>vecinfo;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // Hide the sign-up and login buttons initially
+    ui->pushButton_signup_on_mainwindow->hide();
+    ui->pushButton_Login_on_mainwindow->hide();
+
+    // Set up the QTimer for the logo display duration
+    timer = new QTimer(this);
+    timer->setSingleShot(true); // Trigger the timeout only once
+    timer->setInterval(2000); // Adjust the duration as needed
+
+    // Create a QPropertyAnimation to animate the opacity property of the logo label
+    QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect(ui->label);
+    ui->label->setGraphicsEffect(opacityEffect);
+
+    QPropertyAnimation* animation = new QPropertyAnimation(opacityEffect, "opacity", this);
+    animation->setDuration(100); // Adjust the duration as needed
+    animation->setStartValue(1.0);
+    animation->setEndValue(0.0);
+
+    // Connect the timer's timeout() signal to start the animation
+    connect(timer, &QTimer::timeout, this, [animation]() {
+        animation->start();
+    });
+
+    // Connect the animation's finished() signal to show the sign-up and login buttons
+    connect(animation, &QPropertyAnimation::finished, [this]() {
+        ui->pushButton_signup_on_mainwindow->show();
+        ui->pushButton_Login_on_mainwindow->show();
+    });
+
+    // Connect the timer's timeout() signal to hide the logo label
+    connect(timer, &QTimer::timeout, ui->label, &QLabel::hide);
+
+    ui->label->setAttribute(Qt::WA_TranslucentBackground);
+
+    // Start the timer
+    timer->start();
 }
-//bool search(info i){
-//    for(auto& i1:vecinfo){
-//        if(i==i1)
-//            return false;
-//    }
-//    return true;
-//}
-//qint32 searchuser(info i){qint32 num=0;
-//    for(auto& i1:vecinfo){
-//        if(i==i1)
-//            return num;
-//        num++;
-//    }
-//    return -1;
-//}
-//void MainWindow::on_pushButton_Login_on_mainwindow_clicked()
-//{
-//    log = new loginDialog();
-//    connect(log,SIGNAL(sig_login(info)),this,SLOT(slot_login(info)));
-//    log->show();
 
-
-
-//}
 
 void MainWindow::slot_login(info per){
-    //qDebug()<<vecinfo[0].username;
-
-
 
 }
 
 void save()
 {
-
-
     QFile file("person1.txt");
-    //
     file.open(QIODevice :: WriteOnly);
-
     QDataStream  out(&file);
-
     out.setVersion(QDataStream ::Qt_4_7);
-    //    for(auto& i:vecinfo){
-    //        out << i;
-    //    }
-    // out<<"\nDOnefile!";
     file.flush();
     file.close();
-
 }
 
 //////////////////////////////////////////////////
@@ -76,24 +80,14 @@ void load()
 
     in.setVersion(QDataStream ::Qt_4_7);
 
-
-
     info i;
 
     while(!in.atEnd()){
         in>> i;
-        //        if(search(i)){
-        //            vecinfo.push_back(i);
-        //        }
     }
 
 
     file.close();
-    //info p1=vecinfo[0];
-    // qDebug() << p1.name<<":"<< p1.last;
-    //qDebug() << p2.name<<":"<< p2.age;
-
-
 
 }
 
@@ -108,43 +102,10 @@ void MainWindow::on_pushButton_Login_on_mainwindow_clicked()
     log = new loginDialog();
     connect(log,SIGNAL(sig_login(info)),this,SLOT(slot_login(info)));
     log->show();
-
-
-
 }
 
 
-/*void on_pushButton_signup_on_mainwindow_clicked()
-{
-    SignUpDialog signUpDialog;
-    signUpDialog.exec();
-}*/
-//bool idsearch(QString id){
-//        for(info i:vecinfo){
-//        if(i.username==id){return true;
-
-//        }} return false;
-//}
-void MainWindow::slot_signup(info infor){ //load();
-    //  qint32 num=searchuser(infor);
-    //        if(idsearch(infor.username)){
-    //        QMessageBox::warning(nullptr, "Error", "This username has been taken\n Try more");
-    //        return;
-    //        }
-    //    if(num==-1){
-    //        vecinfo.push_back(infor);
-    //       // chatClient->signUp(infor.username,infor.password,infor.name,infor.phonenum);
-    //       // save();
-    //    }
-    //    else{
-    //        if(!(vecinfo[num]==infor)){
-    //            QMessageBox::warning(nullptr, "Error", "This user has been added\n Please enter an other user!");}
-
-
-    //        else if(vecinfo[num].username==infor.username){
-    //            QMessageBox::warning(nullptr, "Error", "This username has been taken\n Try more");}
-
-    //    }
+void MainWindow::slot_signup(info infor){
 
 }
 

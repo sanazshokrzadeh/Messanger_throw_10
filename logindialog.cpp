@@ -105,22 +105,19 @@ void loginDialog::handleAlreadyLogIn()
 
 
 }
-void loginDialog::logintohomepage(tokenuser person){
+void loginDialog::logintohomepage(tokenuser person)
+{
     homepage *HmPage = new homepage();
-    //   HmPage(person.getUsername());
-    //  homepage HHH(person.getUsername());
-    //  emit HmPage->sig_HmPage(person);
-    //emit sig_logintohomepage(person);
-    // connect(HmPage,SIGNAL(sig_HmPage(person)),this,SLOT(slot_Homepage(person)));
 
     HmPage->setPerson(person);
 
-
     HmPage->show();
 }
+
 void loginDialog::slot_Homepage(tokenuser person){
 
 }
+
 void loginDialog::handleLogInSuccess(QString token)
 {
     // Handle log-in success

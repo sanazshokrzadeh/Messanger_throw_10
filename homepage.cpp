@@ -6,6 +6,13 @@
 #include<QTimer>
 #include<QMessageBox>
 #include"creategroupname.h"
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QEventLoop>
+#include <QUrl>
+#include<QCoreApplication>
+#include<QProcess>
 #include"joingroupname.h"
 #include"joinchannelname.h"
 #include"createchannelname.h"
@@ -37,20 +44,23 @@ homepage::homepage(QWidget *parent) :
      // Set up the QTimer to refresh the contacts every second
 
      QTimer* refreshTimer = new QTimer(this);
+
      connect(refreshTimer, &QTimer::timeout, this, &homepage::refreshContacts);
      connect(refreshTimer, &QTimer::timeout, this, &homepage::handlewhileoffline);
      connect(refreshTimer, &QTimer::timeout, this, &::homepage::handlegroupwhileoffline);
      connect(refreshTimer, &QTimer::timeout, this, &homepage::handlechannelwhileoffline);
      connect(refreshTimer, &QTimer::timeout, this, &homepage::refreshChatroom);
      connect(refreshTimer, &QTimer::timeout, this, &homepage::readInformationFromFile);
+
      refreshTimer->start(500); // Refresh every 1 second
 
 
      connect(ui->contactListWidget, &QListWidget::itemClicked, this, &homepage::contactClicked);
      connect(ui->groupListWidget, &QListWidget::itemClicked, this, &homepage::groupClicked);
      connect(ui->channelListWidget, &QListWidget::itemClicked, this, &homepage::channelClicked);
+
      ui->moreButton->setIcon(QIcon(":/send/icons8-more-80.png"));
-     ui->settingsButton->setIcon(QIcon(":/send/icons8-menu-80.png"));
+
      ui->sendButton->setIcon(QIcon(":/send/send/icons8-send-80.png"));
 
      ui->partlabel->hide();
@@ -59,8 +69,7 @@ homepage::homepage(QWidget *parent) :
      connect(chatClient,&ChatClient::sendmessagegroupError,this,&homepage::handlesendmessageerror);
      connect(chatClient,&ChatClient::sendmessagechannelError,this,&homepage::handlesendmessageerror);
 
-     //login=new loginDialog(this);
-     //connect(login, &loginDialog::sig_logintohomepage, this, &homepage::handletoken);
+
 }
 void homepage::startRefreshTimer()
 {
@@ -74,12 +83,11 @@ void homepage::setPerson(tokenuser person)
 {
     // Use the person object here or store it as a member variable
     // You can access its attributes using person.username and person.token
-    // Example:
+
     QString username = person.getUsername();
     QString token = person.getToken();
     receivedUser=tokenuser(username,token);
-    ui->label->setText(username);
-    ui->label_2->setText(token);
+
 }
 
 homepage::~homepage()
@@ -93,32 +101,17 @@ void homepage::on_moreButton_clicked()
 }
 
 
-void homepage::on_settingsButton_clicked()
-{
-//        delete menu;
-//        if (menuParent == "sb")
-//        {
-//            return;
-//        }
-    QMenu *menu = new QMenu();
-     //   menuParent = "sb";
-    menu->addAction(QIcon("../res/icon/acc_settings_icon.png"), "Account Settings");
-    menu->addAction(QIcon("../res/icon/app_settings_icon.png"), "App Settings");
-    menu->addAction(QIcon("../res/icon/add_room_icon.png"), "Add Room");
-    menu->addAction(QIcon("../res/icon/enter_room_icon.png"), "Enter Room");
-    menu->addAction(QIcon("../res/icon/remove_account_icon.png"), "Delete Account");
-    menu->addAction(QIcon("../res/icon/leave_icon.png"), "Logout");
-      //  connect(menu, &QMenu::triggered, this, &ChatWindow::buttonsProc);
-    menu->popup(QPoint(ui->settingsButton->pos().x(), ui->settingsButton->pos().y() + 70));
-}
+
 
 
 void homepage::handlegetuserlistrSuccess(const QStringList &blocks)
 {contatctuser=blocks;}
 
-void homepage::handlewhileoffline(){
-      QStringList contactList;
- // Open the user contact file
+void homepage::handlewhileoffline()
+{
+
+    QStringList contactList;
+    // Open the user contact file
     QFile file("user_contacts.txt");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -185,8 +178,11 @@ void homepage::handlechannelwhileoffline(){
 }
 
 
+
 void homepage::refreshChatroom()
 {
+
+
 
     QString token = receivedUser.getToken();
     if(!ui->profile_lable->text().isNull()&&ui->partlabel->text()=="user"){
@@ -210,47 +206,54 @@ void homepage::handlegetgrouplistSuccess(const QStringList &blocks)
 
 }
 
+
+
 void homepage::handlegetuserchatsSuccess(const QStringList &blocks)
-{   QString folderName = "user";
+{
+    QString folderName = "user";
     QDir folder;
     if (!folder.exists(folderName))
         folder.mkdir(folderName);
 
-    // Create the file inside the folder
-
     for (int i = 0; i < contatctuser.size(); ++i) {
-
         QString blockSource = contatctuser.at(i);
-
-        // Create a file name based on the block source
         QString fileName = blockSource + ".txt";
         QString filePath = folder.absoluteFilePath(fileName);
-        // Open the file for writing
+
+        // Read existing content
+        QString existingContent;
         QFile file(filePath);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
-           // qDebug()<<"file named"<<fileName<<"created\n";
-            // Write the block source to the file
-            for (int i = 0; i < blocks.size(); i+=4) {
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in(&file);
+            existingContent = in.readAll();
+            file.close();
+        }
 
-                QString body = blocks.at(i);
-                QString dst =blocks.at(i + 1);
-                QString src = blocks.at(i + 2); QString time = blocks.at(i + 3);
-                if(src==blockSource||dst==blockSource){
-                    out<<src<< ":" << body << "\n";
-               out << time << "\n";
-
-               // out << "\n";
-                }
+        // Append new content if there are differences
+        QString newContent;
+        for (int i = 0; i < blocks.size(); i += 4) {
+            QString body = blocks.at(i);
+            QString dst = blocks.at(i + 1);
+            QString src = blocks.at(i + 2);
+            QString time = blocks.at(i + 3);
+            if (src == blockSource || dst == blockSource) {
+                QString line = src + ":" + body + "\n" + time + "\n";
+                if (!existingContent.contains(line))
+                    newContent += line;
             }
+        }
 
-            // Close the file
+        // Append new content to the file
+        if (!newContent.isEmpty() && file.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << newContent;
             file.close();
         } else {
-            qDebug() << "Failed to create file:" << fileName;
+            qDebug() << "Failed to append additions to file:" << fileName;
         }
     }
 }
+
 void homepage::handlegetgroupchatsSuccess(const QStringList &blocks)
 {   QString folderName = "group";
     QDir folder;
@@ -267,33 +270,42 @@ void homepage::handlegetgroupchatsSuccess(const QStringList &blocks)
         QString fileName = blockSource + ".txt";
         QString filePath = folder.absoluteFilePath(fileName);
         // Open the file for writing
+        // Read existing content
+        QString existingContent;
         QFile file(filePath);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in(&file);
+            existingContent = in.readAll();
+            file.close();
+        }
 
-            for (int i = 0; i < blocks.size(); i+=4) {
-
-                QString body = blocks.at(i);
-                QString dst =blocks.at(i + 1);
-                QString src = blocks.at(i + 2);
-                QString time = blocks.at(i + 3);
-                if(src==blockSource||dst==blockSource){
-               out<<src<< ":" << body << "\n";
-               out << time << "\n";
-
-               // out << "\n";
-                }
+        // Append new content if there are differences
+        QString newContent;
+        for (int i = 0; i < blocks.size(); i += 4) {
+            QString body = blocks.at(i);
+            QString dst = blocks.at(i + 1);
+            QString src = blocks.at(i + 2);
+            QString time = blocks.at(i + 3);
+            if (src == blockSource || dst == blockSource) {
+                QString line = src + ":" + body + "\n" + time + "\n";
+                if (!existingContent.contains(line))
+                    newContent += line;
             }
+        }
 
-            // Close the file
+        // Append new content to the file
+        if (!newContent.isEmpty() && file.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << newContent;
             file.close();
         } else {
-            qDebug() << "Failed to create file:" << fileName;
+            qDebug() << "Failed to append additions to file:" << fileName;
         }
     }
 }
 void homepage::handlegetchannelchatsSuccess(const QStringList &blocks)
-{   QString folderName = "channel";
+{
+    QString folderName = "channel";
     QDir folder;
     if (!folder.exists(folderName))
         folder.mkdir(folderName);
@@ -308,28 +320,36 @@ void homepage::handlegetchannelchatsSuccess(const QStringList &blocks)
         QString fileName = blockSource + ".txt";
         QString filePath = folder.absoluteFilePath(fileName);
         // Open the file for writing
+        // Read existing content
+        QString existingContent;
         QFile file(filePath);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in(&file);
+            existingContent = in.readAll();
+            file.close();
+        }
 
-            for (int i = 0; i < blocks.size(); i+=4) {
-
-                QString body = blocks.at(i);
-                QString dst =blocks.at(i + 1);
-                QString src = blocks.at(i + 2);
-                QString time = blocks.at(i + 3);
-                if(src==blockSource||dst==blockSource){
-                    out<<src<< ":" << body << "\n";
-                    out << time << "\n";
-
-                    // out << "\n";
-                }
+        // Append new content if there are differences
+        QString newContent;
+        for (int i = 0; i < blocks.size(); i += 4) {
+            QString body = blocks.at(i);
+            QString dst = blocks.at(i + 1);
+            QString src = blocks.at(i + 2);
+            QString time = blocks.at(i + 3);
+            if (src == blockSource || dst == blockSource) {
+                QString line = src + ":" + body + "\n" + time + "\n";
+                if (!existingContent.contains(line))
+                    newContent += line;
             }
+        }
 
-            // Close the file
+        // Append new content to the file
+        if (!newContent.isEmpty() && file.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << newContent;
             file.close();
         } else {
-            qDebug() << "Failed to create file:" << fileName;
+            qDebug() << "Failed to append additions to file:" << fileName;
         }
     }
 }
@@ -369,54 +389,33 @@ void homepage::readInformationFromFile()
             } else {
                 QString time = line;
 
-                // Set the font properties for the body text
-                //                QTextCharFormat bodyFormat;
-                //                QFont futuraFont("Futura", 20);
-                //                bodyFormat.setFont(futuraFont);
 
-                // Append the body text with the desired font
-                //                QTextCursor cursor(&document);
-                //                cursor.setCharFormat(bodyFormat);
                 existingChatroomContent+=bodyText + '\n';
 
-
-                //                timeFormat.setFontFamily("Roboto");
-                //                timeFormat.setFontPointSize(8);
-                //                timeFormat.setFontWeight(QFont::Normal);
-                //                QColor timeColor("#c1e1c1");
-                //                timeFormat.setForeground(timeColor);
-
-                // Append the time with the desired font and color
                 existingChatroomContent+= time + '\n';
 
-                // Append the separator
-                // QTextCharFormat separatorFormat;
-
-                //cursor.setCharFormat(bodyFormat);
                 existingChatroomContent+="_______________________________________\n";
 
                 isBodyLine = true;
             }
         }
 
-        // qDebug() <<"ex::::"<< existingChatroomContent;
 
         // Compare the lengths of existingChatroomContent and exist
         if (existingChatroomContent.length() > exist.length()) {
             // Find the additions in existingChatroomContent
             QString additions = existingChatroomContent.mid(exist.length()).trimmed();
-            // qDebug() <<"addintion::::"<< additions;
-            // QString additions = existingChatroomContent-exist;
+
             // Append the additions to the chatroom
             ui->chatroom->append(additions);
         }
 
         // Append the formatted content to the string
         // existingChatroomContent = document.toHtml();
-        qDebug() << existingChatroomContent;
+
 
         // Display the formatted content in a QTextBrowser widget
-        // ui->chatroom->setHtml(existingChatroomContent);
+
         file.close();}
 
 }
@@ -512,16 +511,6 @@ void homepage::handlechatusernamesignal(QString chatusername){
 
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 void homepage::on_sendButton_clicked()

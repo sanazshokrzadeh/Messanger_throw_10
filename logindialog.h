@@ -29,13 +29,12 @@ private slots:
     void handleLogInError(const QString &errorMessage);
       void handleAlreadyLogIn();
     void on_passwordeye_clicked();
-      void slot_Homepage(tokenuser person);//QString readTokenFromFile(const QString &username);
-     // void writeTokenToFile(const QString &username, const QString &token);
+      void slot_Homepage(tokenuser person);
 
 private:
     Ui::loginDialog *ui;
     ChatClient *chatClient;
-//   homepage *HmPage;
+
 signals:
     void sig_login(info inf);
     void sig_logintohomepage(tokenuser person);

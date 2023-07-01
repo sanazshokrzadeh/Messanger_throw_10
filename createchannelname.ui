@@ -6,20 +6,43 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>211</width>
-    <height>181</height>
+    <width>256</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Create Channel</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>171</width>
-     <height>151</height>
+     <x>10</x>
+     <y>20</y>
+     <width>231</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget
+{
+	color: rgb(64, 64, 64);
+  	font: 900 14pt &quot;Exo 2&quot;;
+}</string>
+   </property>
+   <property name="text">
+    <string>Create Channel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>231</width>
+     <height>71</height>
     </rect>
    </property>
    <property name="title">
@@ -29,25 +52,47 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
-      <width>151</width>
-      <height>31</height>
+      <y>30</y>
+      <width>201</width>
+      <height>30</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_createchannel_on_createchannelname">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>90</y>
-      <width>111</width>
-      <height>29</height>
-     </rect>
+    <property name="styleSheet">
+     <string notr="true">padding-left:3px;</string>
     </property>
-    <property name="text">
-     <string>create channel</string>
+    <property name="frame">
+     <bool>false</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Enter channel name to create</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_createchannel_on_createchannelname">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>170</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+		background-color:rgb(193, 225, 193);
+	color: rgb(106, 106, 106);
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 5px;
+	padding: 10px;
+	font: 700 9pt &quot;Exo 2&quot;;
+}</string>
+   </property>
+   <property name="text">
+    <string>create channel</string>
+   </property>
   </widget>
  </widget>
  <resources/>

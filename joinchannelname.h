@@ -19,12 +19,8 @@ public:
     ~joinchannelname();
 
 private slots:
-    //void on_pushButton_joinchannel_on_joinchannelname_clicked();
-
     void handlejoinchannelsuccess(const QString &message);
     void handlejoinchannelerror(const QString &errormessage);
-
-
     void on_pushButton_joinchannel_on_joinchannelname2_clicked();
 private:
     Ui::joinchannelname *ui;

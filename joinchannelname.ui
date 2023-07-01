@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>211</width>
-    <height>181</height>
+    <width>252</width>
+    <height>223</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>10</y>
-     <width>171</width>
-     <height>151</height>
+     <y>70</y>
+     <width>211</width>
+     <height>71</height>
     </rect>
    </property>
    <property name="title">
@@ -29,31 +29,44 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
-      <width>151</width>
-      <height>31</height>
+      <y>30</y>
+      <width>181</width>
+      <height>30</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_joinchannel_on_joinchannelname2">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>90</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Exo 2</family>
-      <pointsize>9</pointsize>
-      <italic>false</italic>
-      <bold>true</bold>
-     </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton
+     <string notr="true">padding-left:3px;</string>
+    </property>
+    <property name="frame">
+     <bool>false</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Enter channel name to join</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_joinchannel_on_joinchannelname2">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>160</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Exo 2</family>
+     <pointsize>9</pointsize>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="whatsThis">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;push to join&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
 {
 		background-color:rgb(193, 225, 193);
 	color: rgb(106, 106, 106);
@@ -65,11 +78,33 @@
 	font: 700 9pt &quot;Exo 2&quot;;
 }
 </string>
-    </property>
-    <property name="text">
-     <string>join channel</string>
-    </property>
-   </widget>
+   </property>
+   <property name="text">
+    <string>join channel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>211</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget
+{
+	color: rgb(64, 64, 64);
+  	font: 900 14pt &quot;Exo 2&quot;;
+}</string>
+   </property>
+   <property name="text">
+    <string>Join Channel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>

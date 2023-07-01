@@ -7,6 +7,7 @@
 #include"logindialog.h"
 #include"info.h"
 #include<QVector>
+#include<QTimer>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -23,7 +24,7 @@ private slots:
     void on_pushButton_signup_on_mainwindow_clicked();
      void slot_signup(info infor);
     void slot_login(info per);
-   //  void on_pushButton_login_on_mainwindow_clicked();
+
 
      void on_pushButton_Login_on_mainwindow_clicked();
 
@@ -32,6 +33,7 @@ private slots:
     QVector<MainWindow>vec;
     loginDialog *log;
     SignUpDialog *signUp;
+    QTimer *timer;
 };
 #endif // MAINWINDOW_H
 

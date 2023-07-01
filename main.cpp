@@ -42,10 +42,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/img/icon/Screen Shot 1402-04-06 at 12.34.11-fotor-bg-remover-20230627124344.png"));
 
- MainWindow w;
-// if(!b){
- w.show();
-readFromFile();
-//}
+    MainWindow w;
+
+    w.show();
+    readFromFile();
+
     return a.exec();
 }

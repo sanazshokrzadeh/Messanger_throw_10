@@ -22,7 +22,7 @@ private slots:
     void handleSignUpSuccess();
     void handleSignUpError(const QString &errorMessage);
 
-  //  void on_c_password_lineEdit_textChanged( QString password);
+
 
     void on_pushButton_clicked();
 

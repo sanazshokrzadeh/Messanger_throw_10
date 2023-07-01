@@ -20,7 +20,6 @@ public:
 
 private slots:
     void on_pushButton_joingroup_on_joingroupname_clicked();
-
     void handlejoingroupsuccess(const QString &message);
     void handlejoingrouperror(const QString &errormessage);
 private:

@@ -19,8 +19,7 @@ public:
 private slots:
     void on_pushButton_add_on_newchatusername_clicked();
 
-//    void handleaddnewusersuccess();
-//    void handleaddnewusererror(const QString &errormessage);
+
 private:
     Ui::newchatusername *ui;
     ChatClient *chatClient;
